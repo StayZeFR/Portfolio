@@ -1,0 +1,31 @@
+@font-face {
+    font-family: neoteric;
+    src: url("../fonts/Neoteric-32A8.ttf");
+}
+
+html, body {
+    height: 100%;
+    width: 100%;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: "neoteric", sans-serif;
+    display: grid;
+    grid-template-rows: 85px calc(100% - 85px);
+    grid-template-columns: auto;
+}
+
+.navigation {
+    position: sticky;
+    grid-row: 1 / 2;
+    grid-column: 1 / 2;
+    background-color: white;
+}
+
+.content {
+    grid-row: 2 / 3;
+    grid-column: 1 / 2;
+    background-color: green;
+}
