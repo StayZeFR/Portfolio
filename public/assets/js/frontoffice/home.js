@@ -56,7 +56,7 @@ $(document).ready(function () {
                 enable: true,
                 distance: 100,
                 color: "#ffffff",
-                opacity: 0.4,
+                opacity: 0.8,
                 width: 1
             },
             move: {
