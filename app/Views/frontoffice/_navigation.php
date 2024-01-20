@@ -15,7 +15,7 @@
                     <li><a class="dropdown-item" href="">Stage</a></li>
                 </ul>
             </li>
-            <li class="<?= $page == "FRONTOFFICE-TECHWATCH" ? "active" : "" ?>"><a href="#">Veille technologique</a>
+            <li class="<?= $page == "FRONTOFFICE-TECHWATCH" ? "active" : "" ?>"><a href="<?= url_to("FRONTOFFICE-TECHWATCH") ?>">Veille technologique</a>
             </li>
             <li class="<?= $page == "FRONTOFFICE-CV" ? "active" : "" ?>"><a href="#">Curriculum vitae</a></li>
         </ul>

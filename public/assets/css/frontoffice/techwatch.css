@@ -1,0 +1,16 @@
+#article-header {
+    border-bottom: 1px solid #1a1a1a;
+}
+
+#article-feeds {
+    padding: 0 20px;
+}
+
+.article-items {
+    border-bottom: 1px solid #1a1a1a;
+    padding: 30px;
+}
+
+.article-items-content {
+    padding: 0 50px;
+}

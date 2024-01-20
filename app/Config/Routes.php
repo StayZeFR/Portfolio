@@ -14,6 +14,7 @@ use CodeIgniter\Router\RouteCollection;
 $routes->get("/", "Frontoffice\HomeController::view", ["as" => "FRONTOFFICE-HOME"]);
 $routes->get("/profile", "Frontoffice\ProfileController::view", ["as" => "FRONTOFFICE-PROFILE"]);
 $routes->get("/projects", "Frontoffice\ProjectsController::view", ["as" => "FRONTOFFICE-PROJECTS"]);
+$routes->get("/technology-watch", "Frontoffice\TechnologyWatchController::view", ["as" => "FRONTOFFICE-TECHWATCH"]);
 
 
 /*
