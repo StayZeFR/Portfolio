@@ -1,4 +1,4 @@
-<?= $this->extend("global/_pattern-backoffice") ?>
+<?= $this->extend("backoffice/_pattern") ?>
 
 <?= $this->section("assets") ?>
 <link rel="stylesheet" href="<?= base_url("assets/css/backoffice/home.css") ?>">

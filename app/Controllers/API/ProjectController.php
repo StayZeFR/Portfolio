@@ -30,7 +30,15 @@ class ProjectController extends BaseController
     public function getProjects(): ResponseInterface
     {
         $manager = new ProjectModel();
-        $projects = $manager->findAll();
+
+        $builder = $manager->builder();
+        $builder->select("p.ID_PROJECT AS ID, CONCAT(p.ID_CATEGORY, ' - ', c.NAME) AS CATEGORY, p.TITLE AS TITLE, CONCAT(p.ID_USER_CREATION, ' - ', u.USERNAME) AS USER_CREATION, p.DATE_CREATION AS DATE_CREATION, CONCAT(p.ID_USER_MODIFICATION, ' - ', u.USERNAME) AS USER_MODIFICATION, p.DATE_MODIFICATION AS DATE_MODIFICATION, p.STATUS AS STATUS");
+        $builder->from("project p");
+        $builder->join("category c", "c.ID_CATEGORY = p.ID_CATEGORY", "left");
+        $builder->join("user u", "u.ID_USER = p.ID_USER_CREATION OR u.ID_USER = p.ID_USER_MODIFICATION", "left");
+        $builder->groupBy("p.ID_PROJECT");
+        $projects = $builder->get()->getResult();
+
         return $this->response->setJSON($projects);
     }
 
@@ -43,9 +51,15 @@ class ProjectController extends BaseController
     public function addProject(): ResponseInterface
     {
         $manager = new ProjectModel();
-        $data = $this->request->getPost();
+        $values = $this->request->getPost();
+        $data = [
+            "ID_CATEGORY" => intval(trim($values["category"])),
+            "TITLE" => trim($values["title"] ?? ""),
+            "TEXT" => trim($values["text"] ?? ""),
+            "STATUS" => intval(trim($values["status"])),
+        ];
         $manager->insert($data);
-        return $this->response->setJSON($data);
+        return $this->response->setStatusCode(201);
     }
 
     /**
@@ -58,7 +72,7 @@ class ProjectController extends BaseController
         $manager = new ProjectModel();
         $data = $this->request->getPost();
         $manager->delete($data["ID"]);
-        return $this->response->setJSON($data);
+        return $this->response->setStatusCode(204);
     }
 
     /**
@@ -70,8 +84,14 @@ class ProjectController extends BaseController
     public function updateProject(): ResponseInterface
     {
         $manager = new ProjectModel();
-        $data = $this->request->getPost();
-        $manager->update($data["ID"], $data);
-        return $this->response->setJSON($data);
+        $values = $this->request->getPost();
+        $data = [
+            "ID_CATEGORY" => intval(trim($values["category"])),
+            "TITLE" => trim($values["title"] ?? ""),
+            "TEXT" => trim($values["text"] ?? ""),
+            "STATUS" => intval(trim($values["status"]))
+        ];
+        $manager->update($values["id"], $data);
+        return $this->response->setStatusCode(204);
     }
 }

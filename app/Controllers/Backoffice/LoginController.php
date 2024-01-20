@@ -10,7 +10,7 @@ class LoginController extends BaseController
 {
     public function view(): string
     {
-        return view("pages/backoffice/login", [
+        return view("backoffice/pages/login", [
             "page" => "BACKOFFICE-LOGIN",
             "message" => session()->getFlashdata("error") ?? ""
         ]);

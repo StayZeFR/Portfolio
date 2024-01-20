@@ -30,7 +30,7 @@ class Paths
      * APPLICATION FOLDER NAME
      * ---------------------------------------------------------------
      *
-     * If you want this front controller to use a different "app"
+     * If you want this frontoffice controller to use a different "app"
      * folder than the default one you can set its name here. The folder
      * can also be renamed or relocated anywhere on your server. If
      * you do, use a full server path.

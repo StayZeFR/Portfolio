@@ -10,7 +10,7 @@ class ProjectsController extends BaseController
 {
     public function view(): string
     {
-        return view("pages/backoffice/projects", [
+        return view("backoffice/pages/projects", [
             "page" => "BACKOFFICE-PROJECTS"
         ]);
     }

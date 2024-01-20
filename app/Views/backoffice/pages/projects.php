@@ -1,4 +1,4 @@
-<?= $this->extend("global/_pattern-backoffice") ?>
+<?= $this->extend("backoffice/_pattern") ?>
 
 <?= $this->section("assets") ?>
 <link rel="stylesheet" href="<?= base_url("assets/css/backoffice/projects.css") ?>">
@@ -172,7 +172,6 @@
                 <h1 class="slds-modal__title slds-hyphenate" id="modal-category-action_title">?</h1>
             </div>
             <div class="slds-modal__content slds-p-around_medium">
-                <div id="modal-category-action_toast"></div>
                 <div class="slds-form-element">
                     <label class="slds-form-element__label" for="modal-category-action_name">
                         Nom de la catégorie<abbr class="slds-required">*</abbr></label>

@@ -10,7 +10,7 @@ class HomeController extends BaseController
 {
     public function view(): string
     {
-        return view("pages/backoffice/home", [
+        return view("backoffice/pages/home", [
             "page" => "BACKOFFICE-HOME"
         ]);
     }

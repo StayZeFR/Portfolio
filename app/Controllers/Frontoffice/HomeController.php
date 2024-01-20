@@ -8,7 +8,7 @@ class HomeController extends BaseController
 {
     public function view(): string
     {
-        return view("pages/frontoffice/home", [
+        return view("frontoffice/pages/home", [
             "page" => "FRONTOFFICE-HOME"
         ]);
     }

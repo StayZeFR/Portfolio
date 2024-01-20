@@ -13,6 +13,7 @@
 
     <script src="<?= base_url("assets/libs/jquery/jquery.js") ?>"></script>
     <script src="<?= base_url("assets/libs/datatables/datatables.min.js") ?>"></script>
+    <script src="<?= base_url("assets/libs/sweetalert/sweetalert.js") ?>"></script>
     <script src="<?= base_url("assets/js/backoffice/global.js") ?>"></script>
 
     <?= $this->renderSection("assets") ?>
@@ -20,7 +21,7 @@
 <body>
 <?php
     if ($page !== "BACKOFFICE-LOGIN") {
-        echo $this->include("global/_navigation-backoffice");
+        echo $this->include("backoffice/_navigation");
     }
 ?>
 <?= $this->renderSection("main") ?>

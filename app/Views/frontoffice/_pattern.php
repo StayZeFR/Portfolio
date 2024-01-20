@@ -11,7 +11,7 @@
     <?= $this->renderSection("assets") ?>
 </head>
 <body>
-<?= $this->include("global/_navigation-frontoffice") ?>
+<?= $this->include("frontoffice/_navigation-frontoffice") ?>
 <?= $this->renderSection("main") ?>
 </body>
 </html>

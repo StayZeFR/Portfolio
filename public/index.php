@@ -12,10 +12,10 @@ if (version_compare(PHP_VERSION, $minPhpVersion, '<')) {
     exit($message);
 }
 
-// Path to the front controller (this file)
+// Path to the frontoffice controller (this file)
 define('FCPATH', __DIR__ . DIRECTORY_SEPARATOR);
 
-// Ensure the current directory is pointing to the front controller's directory
+// Ensure the current directory is pointing to the frontoffice controller's directory
 if (getcwd() . DIRECTORY_SEPARATOR !== FCPATH) {
     chdir(FCPATH);
 }

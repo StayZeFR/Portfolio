@@ -8,7 +8,7 @@ class ProfileController extends BaseController
 {
     public function view(): string
     {
-        return view("pages/frontoffice/profile", [
+        return view("frontoffice/pages/profile", [
             "page" => "FRONTOFFICE-PROFILE"
         ]);
     }

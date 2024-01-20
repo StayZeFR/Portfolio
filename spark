@@ -49,10 +49,10 @@ ini_set('display_errors', '1');
  */
 define('SPARKED', true);
 
-// Path to the front controller
+// Path to the frontoffice controller
 define('FCPATH', __DIR__ . DIRECTORY_SEPARATOR . 'public' . DIRECTORY_SEPARATOR);
 
-// Ensure the current directory is pointing to the front controller's directory
+// Ensure the current directory is pointing to the frontoffice controller's directory
 chdir(FCPATH);
 
 /*

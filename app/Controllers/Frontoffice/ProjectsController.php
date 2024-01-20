@@ -8,7 +8,7 @@ class ProjectsController extends BaseController
 {
     public function view(): string
     {
-        return view("pages/frontoffice/projects", [
+        return view("frontoffice/pages/projects", [
             "page" => "FRONTOFFICE-PROJECTS"
         ]);
     }

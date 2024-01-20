@@ -306,7 +306,7 @@ var DivType;
 var EasingType;
 
 (function (EasingType) {
-  EasingType["easeOutBack"] = "ease-out-back";
+  EasingType["easeOutBack"] = "ease-out-backoffice";
   EasingType["easeOutCirc"] = "ease-out-circ";
   EasingType["easeOutCubic"] = "ease-out-cubic";
   EasingType["easeOutQuad"] = "ease-out-quad";

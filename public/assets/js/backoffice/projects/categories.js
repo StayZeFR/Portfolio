@@ -84,6 +84,28 @@ function addCategory() {
             success: function (data) {
                 closeModalCategory();
                 updateCategoriesList();
+                Swal.fire({
+                    title: "Catégorie ajoutée",
+                    text: "La catégorie a bien été ajoutée !",
+                    icon: "success",
+                    toast: true,
+                    position: "top-end",
+                    showConfirmButton: false,
+                    timer: 3000,
+                    timerProgressBar: true
+                });
+            },
+            error: function (e) {
+                Swal.fire({
+                    title: "Erreur",
+                    text: "Une erreur est survenue lors de l'ajout de la catégorie !",
+                    icon: "error",
+                    toast: true,
+                    position: "top-end",
+                    showConfirmButton: false,
+                    timer: 3000,
+                    timerProgressBar: true
+                });
             }
         });
     } else {
@@ -107,6 +129,28 @@ function deleteCategory(id) {
         },
         success: function (data) {
             updateCategoriesList();
+            Swal.fire({
+                title: "Catégorie supprimée",
+                text: "La catégorie a bien été supprimée !",
+                icon: "success",
+                toast: true,
+                position: "top-end",
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true
+            });
+        },
+        error: function (e) {
+            Swal.fire({
+                title: "Erreur",
+                text: "Une erreur est survenue lors de la suppression de la catégorie !",
+                icon: "error",
+                toast: true,
+                position: "top-end",
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true
+            });
         }
     });
 }
@@ -132,10 +176,29 @@ function updateCategory(id) {
             success: function (data) {
                 closeModalCategory();
                 updateCategoriesList();
+                Swal.fire({
+                    title: "Catégorie modifiée",
+                    text: "La catégorie a bien été modifiée !",
+                    icon: "success",
+                    toast: true,
+                    position: "top-end",
+                    showConfirmButton: false,
+                    timer: 3000,
+                    timerProgressBar: true
+                });
             }
         });
     } else {
-        toast("modal-category-action_toast", "error", "Veuillez remplir tous les champs !");
+        Swal.fire({
+            title: "Erreur",
+            text: "Veuillez remplir tous les champs !",
+            icon: "error",
+            toast: true,
+            position: "top-end",
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true
+        });
     }
 }
 

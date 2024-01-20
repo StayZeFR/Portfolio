@@ -49,15 +49,18 @@ $(document).ready(function () {
             url: "/assets/libs/datatables/languages/fr-FR.json"
         },
         columns: [
-            { title: "ID", data: "ID_PROJECT" },
-            { title: "Type", data: "ID_TYPE_PROJECT" },
-            { title: "Modifier par", data: "ID_USER_MODIFICATION" },
-            { title: "Créer par", data: "ID_USER_CREATION" },
+            { title: "ID", data: "ID" },
+            { title: "Catégorie", data: "CATEGORY" },
             { title: "Titre", data: "TITLE" },
+            { title: "Créer par", data: "USER_CREATION" },
             { title: "Créer le", data: "DATE_CREATION" },
+            { title: "Modifier par", data: "USER_MODIFICATION" },
             { title: "Modifier le", data: "DATE_MODIFICATION" },
-            { title: "Statue", data: "STATUS" },
-            { title: "Actions", data: "ID_PROJECT", render: function (data) {
+            { title: "Statue", data: "STATUS", render: function (data) {
+                    return data === "1" ? "Actif" : "Inactif";
+                }
+            },
+            { title: "Actions", data: "ID", render: function (data) {
                     return htmlAction("project", data);
                 }
             }
@@ -71,6 +74,10 @@ $(document).ready(function () {
         columns: [
             { title: "ID", data: "ID_CATEGORY" },
             { title: "Nom", data: "NAME" },
+            { title: "Statue", data: "STATUS", render: function (data) {
+                    return data === "1" ? "Actif" : "Inactif";
+                }
+            },
             { title: "Actions", data: "ID_CATEGORY", render: function (data) {
                     return htmlAction("category", data);
                 }

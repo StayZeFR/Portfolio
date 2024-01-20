@@ -1,4 +1,4 @@
-<?= $this->extend("global/_pattern-frontoffice") ?>
+<?= $this->extend("frontoffice/_pattern") ?>
 
 <?= $this->section("assets") ?>
 <link rel="stylesheet" href="<?= base_url("assets/css/frontoffice/projects.css") ?>">

@@ -5,6 +5,7 @@
  * @param id
  */
 function showModalProject(action, id) {
+    const editor = tinymce.get("modal-project-action_form-texteditor");
     $("#modal-project-action_title").html(action === "edit" ? "Modifier un projet - ID : " + id : "Ajouter un projet");
     $("#modal-project-action_valid").html(action === "edit" ? "Modifier" : "Ajouter").attr("onclick", action === "edit" ? "editProject(" + id + ")" : "addProject()");
 
@@ -14,25 +15,25 @@ function showModalProject(action, id) {
         const project = getProject(id);
         $("#modal-project-action_form-title").val(project["TITLE"]);
         $("#modal-project-action_form-status").prop("checked", project.STATUS === "1");
-        $("#modal-project-action_form-category").append(function () {
+        $("#modal-project-action_form-category").html(function () {
             let html = "";
             categories.forEach(category => {
                 html += "<option value='" + category["ID_CATEGORY"] + "' " + (category["ID_CATEGORY"] === project["ID_CATEGORY"] ? "selected" : "") + ">" + category["NAME"] + "</option>";
             });
             return html;
         });
-        $("#modal-project-action_form-texteditor").html(project["TEXT"]);
+        editor.setContent(project["TEXT"]);
     } else {
         $("#modal-project-action_form-title").val("");
         $("#modal-project-action_form-status").prop("checked", true);
-        $("#modal-project-action_form-category").append(function () {
+        $("#modal-project-action_form-category").html(function () {
             let html = "<option value=''>Sélectionner une categorie...</option>";
             categories.forEach(category => {
                 html += "<option value='" + category["ID_CATEGORY"] + "'>" + category["NAME"] + "</option>";
             });
             return html;
         });
-        $("#modal-project-action_form-texteditor").html("");
+        editor.setContent("");
     }
 
     $("#modal-project-action").show();
@@ -101,15 +102,79 @@ function addProject() {
             text: text
         },
         success: function (data) {
-            if (data.status === "success") {
-                closeModalProject();
-                updateProjectsList();
-                toast("modal-project-action_toast", "success", "Le projet a bien été ajouté.");
-            } else {
-                toast("modal-project-action_toast", "error", "Une erreur est survenue lors de l'ajout du projet.");
-            }
+            closeModalProject();
+            updateProjectsList();
+            Swal.fire({
+                icon: "success",
+                title: "Projet ajouté",
+                text: "Le projet a bien été ajouté.",
+                toast: true,
+                position: "top-end",
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true
+            });
+        },
+        error: function (e) {
+            Swal.fire({
+                icon: "error",
+                title: "Une erreur est survenue",
+                text: "Une erreur est survenue lors de l'ajout du projet.",
+                toast: true,
+                position: "top-end",
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true
+            });
         }
     });
+}
+
+function editProject(id) {
+    const title = $("#modal-project-action_form-title").val();
+    const status = $("#modal-project-action_form-status").is(":checked") ? 1 : 0;
+    const category = $("#modal-project-action_form-category").val();
+    const text = tinymce.get("modal-project-action_form-texteditor").getContent();
+    $.ajax({
+        url: "/api/projects/update",
+        type: "POST",
+        dataType: "json",
+        async: false,
+        data: {
+            id: id,
+            title: title,
+            status: status,
+            category: category,
+            text: text
+        },
+        success: function (data) {
+            closeModalProject();
+            updateProjectsList();
+            Swal.fire({
+                icon: "success",
+                title: "Projet modifié",
+                text: "Le projet a bien été modifié.",
+                toast: true,
+                position: "top-end",
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true
+            });
+        },
+        error: function (e) {
+            Swal.fire({
+                icon: "error",
+                title: "Une erreur est survenue",
+                text: "Une erreur est survenue lors de la modification du projet.",
+                toast: true,
+                position: "top-end",
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true
+            });
+        }
+    });
+
 }
 
 /**
@@ -117,6 +182,7 @@ function addProject() {
  */
 function updateProjectsList() {
     let projects = getProjectsList();
+    console.log(JSON.stringify(projects));
     projectsDatatable.clear();
     projectsDatatable.rows.add(projects);
     projectsDatatable.draw();

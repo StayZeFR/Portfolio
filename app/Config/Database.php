@@ -27,8 +27,8 @@ class Database extends Config
     public array $default = [
         'DSN'          => '',
         'hostname'     => 'localhost',
-        'username'     => 'portfolio',
-        'password'     => 'portfolio',
+        'username'     => 'root',
+        'password'     => '',
         'database'     => 'portfolio',
         'DBDriver'     => 'MySQLi',
         'DBPrefix'     => '',
