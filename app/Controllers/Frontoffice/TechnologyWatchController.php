@@ -15,7 +15,7 @@ class TechnologyWatchController extends BaseController
             "https://blogs.nvidia.com/feed/"
         ]);
 
-        return view("pages/frontoffice/techwatch", [
+        return view("frontoffice/pages/techwatch", [
             "page" => "FRONTOFFICE-TECHWATCH",
             "flux" => $flux
         ]);
