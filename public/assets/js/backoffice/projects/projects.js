@@ -85,6 +85,9 @@ function getProjectsList() {
     return result;
 }
 
+/**
+ * Add project to database with API
+ */
 function addProject() {
     const title = $("#modal-project-action_form-title").val();
     const status = $("#modal-project-action_form-status").is(":checked") ? 1 : 0;

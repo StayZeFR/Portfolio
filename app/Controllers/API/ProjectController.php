@@ -53,13 +53,14 @@ class ProjectController extends BaseController
         $manager = new ProjectModel();
         $values = $this->request->getPost();
         $data = [
-            "ID_CATEGORY" => intval(trim($values["category"])),
+            "ID_CATEGORY" => 1,
             "TITLE" => trim($values["title"] ?? ""),
             "TEXT" => trim($values["text"] ?? ""),
             "STATUS" => intval(trim($values["status"])),
         ];
         $manager->insert($data);
-        return $this->response->setStatusCode(201);
+        return $this->response->setJSON($data);
+        //return $this->response->setStatusCode(201);
     }
 
     /**
