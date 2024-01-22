@@ -24,7 +24,7 @@ CREATE TABLE IF NOT EXISTS category (
     FOREIGN KEY (created_by) REFERENCES user(id)
     );
 
-CREATE TABLE IF NOT EXISTS post (
+CREATE TABLE IF NOT EXISTS project (
                                     id INTEGER PRIMARY KEY AUTO_INCREMENT,
                                     title TEXT NOT NULL,
                                     body TEXT,

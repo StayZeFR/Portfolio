@@ -8,12 +8,12 @@ class CategoryModel extends Model
 {
     protected $DBGroup = "default";
     protected $table = "category";
-    protected $primaryKey = "ID_CATEGORY";
+    protected $primaryKey = "id";
     protected $useAutoIncrement = true;
     protected $returnType = "array";
     protected $useSoftDeletes = false;
     protected $protectFields = true;
-    protected $allowedFields = ["ID_CATEGORY", "NAME", "STATUS"];
+    protected $allowedFields = ["id", "name", "status", "created_by", "created_at", "updated_by", "created_at"];
 
     protected $useTimestamps = false;
     protected $dateFormat = "datetime";

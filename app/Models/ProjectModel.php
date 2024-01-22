@@ -8,12 +8,12 @@ class ProjectModel extends Model
 {
     protected $DBGroup = "default";
     protected $table = "project";
-    protected $primaryKey = "ID_PROJECT";
+    protected $primaryKey = "id";
     protected $useAutoIncrement = true;
     protected $returnType = "array";
     protected $useSoftDeletes = false;
     protected $protectFields = true;
-    protected $allowedFields = ["ID_PROJECT", "ID_USER_MODIFICATION", "ID_USER_CREATION", "ID_TYPE_ARTICLE", "TITLE", "TEXT", "DATE_CREATION", "DATE_MODIFICATION", "STATUS"];
+    protected $allowedFields = ["id", "title", "body", "status", "category_id", "created_by", "created_at", "updated_bu", "updated_at"];
 
     protected $useTimestamps = false;
     protected $dateFormat = "datetime";
