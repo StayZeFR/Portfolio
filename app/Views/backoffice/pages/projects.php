@@ -11,7 +11,7 @@
 <?= $this->endSection() ?>
 
 <?= $this->section("main") ?>
-<div class="slds-grid slds-grid_pull-padded-medium" style="width: 98%; margin: 20px auto auto;">
+<div class="slds-grid slds-grid_pull-padded-medium slds-wrap" style="width: 98%; margin: 20px auto auto;">
     <div class="slds-col slds-p-horizontal_medium">
 
         <div class="slds-grid slds-grid_vertical">
