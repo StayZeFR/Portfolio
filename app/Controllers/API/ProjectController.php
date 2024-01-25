@@ -30,15 +30,7 @@ class ProjectController extends BaseController
     public function getProjects(): ResponseInterface
     {
         $manager = new ProjectModel();
-
-        $builder = $manager->builder();
-        $builder->select("p.ID_PROJECT AS ID, CONCAT(p.ID_CATEGORY, ' - ', c.NAME) AS CATEGORY, p.TITLE AS TITLE, CONCAT(p.ID_USER_CREATION, ' - ', u.USERNAME) AS USER_CREATION, p.DATE_CREATION AS DATE_CREATION, CONCAT(p.ID_USER_MODIFICATION, ' - ', u.USERNAME) AS USER_MODIFICATION, p.DATE_MODIFICATION AS DATE_MODIFICATION, p.STATUS AS STATUS");
-        $builder->from("project p");
-        $builder->join("category c", "c.ID_CATEGORY = p.ID_CATEGORY", "left");
-        $builder->join("user u", "u.ID_USER = p.ID_USER_CREATION OR u.ID_USER = p.ID_USER_MODIFICATION", "left");
-        $builder->groupBy("p.ID_PROJECT");
-        $projects = $builder->get()->getResult();
-
+        $projects = $manager->findAll();
         return $this->response->setJSON($projects);
     }
 
