@@ -4,16 +4,16 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 
-class ProjectModel extends Model
+class ProjectFileModel extends Model
 {
     protected $DBGroup = "default";
-    protected $table = "project";
+    protected $table = "project_file";
     protected $primaryKey = "id";
     protected $useAutoIncrement = true;
     protected $returnType = "array";
     protected $useSoftDeletes = false;
     protected $protectFields = true;
-    protected $allowedFields = ["id", "user_id", "title", "status", "category_id", "created_by", "created_at", "updated_by", "updated_at"];
+    protected $allowedFields = ["id", "project_id", "name", "file_path", "created_by", "created_at"];
 
     protected $useTimestamps = false;
     protected $dateFormat = "datetime";

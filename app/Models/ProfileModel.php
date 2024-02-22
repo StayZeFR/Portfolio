@@ -4,16 +4,16 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 
-class ProjectModel extends Model
+class ProfileModel extends Model
 {
     protected $DBGroup = "default";
-    protected $table = "project";
-    protected $primaryKey = "id";
+    protected $table = "profile";
+    protected $primaryKey = "user_id";
     protected $useAutoIncrement = true;
     protected $returnType = "array";
     protected $useSoftDeletes = false;
     protected $protectFields = true;
-    protected $allowedFields = ["id", "user_id", "title", "status", "category_id", "created_by", "created_at", "updated_by", "updated_at"];
+    protected $allowedFields = ["user_id", "body", "logo_path", "cv_path", "created_by", "created_at", "updated_by", "updated_at"];
 
     protected $useTimestamps = false;
     protected $dateFormat = "datetime";

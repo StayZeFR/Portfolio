@@ -16,17 +16,20 @@
 
         <div class="slds-grid slds-grid_vertical">
             <div class="slds-col">
-                <div class="slds-card__header-title" style="display: flex; flex-direction: row; justify-content: space-between; padding: 10px; color: white;">
+                <div class="slds-card__header-title"
+                     style="display: flex; flex-direction: row; justify-content: space-between; padding: 10px; color: white;">
                     <div>
                         <h2 class="slds-text-heading_large">Projets</h2>
                     </div>
                     <div>
-                        <button class="slds-button slds-button_icon slds-button_icon-brand" onclick="updateProjectsList()">
+                        <button class="slds-button slds-button_icon slds-button_icon-brand"
+                                onclick="updateProjectsList()">
                             <svg class="slds-button__icon" aria-hidden="true">
                                 <use xlink:href="/assets/resources/icons/utility-sprite/svg/symbols.svg#refresh"></use>
                             </svg>
                         </button>
-                        <button class="slds-button slds-button_icon slds-button_icon-brand" onclick="showModalProject('add')">
+                        <button class="slds-button slds-button_icon slds-button_icon-brand"
+                                onclick="showModalProject('add')">
                             <svg class="slds-button__icon" aria-hidden="true">
                                 <use xlink:href="/assets/resources/icons/utility-sprite/svg/symbols.svg#add"></use>
                             </svg>
@@ -46,18 +49,21 @@
 
         <div class="slds-grid slds-grid_vertical">
             <div class="slds-col">
-                <div class="slds-card__header-title" style="display: flex; flex-direction: row; justify-content: space-between; padding: 10px; color: white;">
+                <div class="slds-card__header-title"
+                     style="display: flex; flex-direction: row; justify-content: space-between; padding: 10px; color: white;">
                     <div>
                         <h2 class="slds-text-heading_large">Catégories de projet</h2>
                     </div>
                     <div>
-                        <button class="slds-button slds-button_icon slds-button_icon-brand" onclick="getCategoriesList()">
+                        <button class="slds-button slds-button_icon slds-button_icon-brand"
+                                onclick="getCategoriesList()">
                             <svg class="slds-button__icon" aria-hidden="true">
                                 <use xlink:href="/assets/resources/icons/utility-sprite/svg/symbols.svg#refresh"></use>
                             </svg>
                             <span class="slds-assistive-text">Actualiser</span>
                         </button>
-                        <button class="slds-button slds-button_icon slds-button_icon-brand" onclick="showModalCategory('add')">
+                        <button class="slds-button slds-button_icon slds-button_icon-brand"
+                                onclick="showModalCategory('add')">
                             <svg class="slds-button__icon" aria-hidden="true">
                                 <use xlink:href="/assets/resources/icons/utility-sprite/svg/symbols.svg#add"></use>
                             </svg>
@@ -78,7 +84,8 @@
 <div id="modal-project-action" style="display: none;">
     <section role="dialog" tabindex="-1" aria-modal="true" class="slds-modal slds-fade-in-open slds-modal_large">
         <div class="slds-modal__container">
-            <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" onclick="closeModalProject()">
+            <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse"
+                    onclick="closeModalProject()">
                 <svg class="slds-button__icon slds-button__icon_large" aria-hidden="true">
                     <use xlink:href="/assets/resources/icons/utility-sprite/svg/symbols.svg#close"></use>
                 </svg>
@@ -95,7 +102,7 @@
                                     <label class="slds-form-element__label" for="modal-project-action_form-title">
                                         Titre<abbr class="slds-required">*</abbr></label>
                                     <div class="slds-form-element__control">
-                                        <input type="text" id="modal-project-action_form-title" class="slds-input" />
+                                        <input type="text" id="modal-project-action_form-title" class="slds-input"/>
                                     </div>
                                 </div>
                             </div>
@@ -105,7 +112,8 @@
                                         Catégorie<abbr class="slds-required">*</abbr></label>
                                     <div class="slds-form-element__control">
                                         <div class="slds-select_container">
-                                            <select class="slds-select" id="modal-project-action_form-category"></select>
+                                            <select class="slds-select"
+                                                    id="modal-project-action_form-category"></select>
                                         </div>
                                     </div>
                                 </div>
@@ -124,30 +132,89 @@
                                     </label>
                                 </div>
                             </div>
-                            <div class="slds-col">
-                                <div class="slds-form-element">
-                                    <span class="slds-form-element__label">Document</span>
-                                    <div class="slds-form-element__control">  
-                                        <div class="slds-file-selector slds-file-selector_files">
-                                            <div class="slds-file-selector__dropzone">
-                                                <input type="file" class="slds-file-selector__input slds-assistive-text" id="modal-project-action_form-file"/>
-                                                <label class="slds-file-selector__body" for="modal-project-action_form-file">
-                                                    <span class="slds-file-selector__button slds-button slds-button_neutral">
-                                                    <svg class="slds-button__icon slds-button__icon_left" aria-hidden="true">
-                                                    <use xlink:href="/assets/resources/icons/utility-sprite/svg/symbols.svg#upload"></use>
-                                                    </svg>Télécharger le fichier</span>
-                                                    <span class="slds-file-selector__text slds-medium-show">ou déposer le fichier</span>
-                                                </label>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="slds-col">
+                        <div class="slds-form-element">
+                            <span class="slds-form-element__label">Documents</span>
+                            <br>
+                            <div class="slds-grid slds-grid_vertical" style="width: 750px !important;">
+                                <div class="slds-col">
+                                    <div class="slds-grid slds-gutters">
+                                        <div class="slds-col">
+                                            <div class="slds-form-element__control">
+                                                <input type="text" placeholder="Nom" required="" class="slds-input" />
                                             </div>
+                                        </div>
+                                        <div class="slds-col">
+                                            <div class="slds-form-element__control">
+                                                <div class="slds-file-selector slds-file-selector_files">
+                                                    <div class="slds-file-selector__dropzone">
+                                                        <input type="file" class="slds-file-selector__input slds-assistive-text modal-project-action_form-file" accept="application/pdf"/>
+                                                        <label class="slds-file-selector__body" for="modal-project-action_form-file">
+                                                            <span class="slds-file-selector__button slds-button slds-button_neutral">
+                                                                <svg class="slds-button__icon slds-button__icon_left" aria-hidden="true">
+                                                                    <use xlink:href="/assets/resources/icons/utility-sprite/svg/symbols.svg#upload"></use>
+                                                                </svg>Télécharger le fichier</span>
+                                                            <span class="slds-file-selector__text slds-medium-show">ou déposer le fichier</span>
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="slds-col" style="width: 50px !important;">
+                                            <button class="slds-button slds-button_icon slds-button_icon-brand">
+                                                <svg class="slds-button__icon" aria-hidden="true">
+                                                    <use xlink:href="/assets/resources/icons/utility-sprite/svg/symbols.svg#delete"></use>
+                                                </svg>
+                                            </button>
                                         </div>
                                     </div>
                                 </div>
+
+                                <br>
+
+                                <div class="slds-col">
+                                    <div class="slds-grid slds-gutters">
+                                        <div class="slds-col">
+                                            <div class="slds-form-element__control">
+                                                <input type="text" placeholder="Nom" required="" class="slds-input" />
+                                            </div>
+                                        </div>
+                                        <div class="slds-col">
+                                            <div class="slds-form-element__control">
+                                                <div class="slds-file-selector slds-file-selector_files">
+                                                    <div class="slds-file-selector__dropzone">
+                                                        <input type="file" class="slds-file-selector__input slds-assistive-text modal-project-action_form-file" accept="application/pdf"/>
+                                                        <label class="slds-file-selector__body" for="modal-project-action_form-file">
+                                                            <span class="slds-file-selector__button slds-button slds-button_neutral">
+                                                                <svg class="slds-button__icon slds-button__icon_left" aria-hidden="true">
+                                                                    <use xlink:href="/assets/resources/icons/utility-sprite/svg/symbols.svg#upload"></use>
+                                                                </svg>Télécharger le fichier</span>
+                                                            <span class="slds-file-selector__text slds-medium-show">ou déposer le fichier</span>
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="slds-col" style="width: 50px !important;">
+                                            <button class="slds-button slds-button_icon slds-button_icon-brand">
+                                                <svg class="slds-button__icon" aria-hidden="true">
+                                                    <use xlink:href="/assets/resources/icons/utility-sprite/svg/symbols.svg#delete"></use>
+                                                </svg>
+                                            </button>
+                                            <button class="slds-button slds-button_icon slds-button_icon-brand">
+                                                <svg class="slds-button__icon" aria-hidden="true">
+                                                    <use xlink:href="/assets/resources/icons/utility-sprite/svg/symbols.svg#add"></use>
+                                                </svg>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+
                             </div>
                         </div>
-                    </div>
-                    <br>
-                    <div class="slds-col">
-                        <textarea id="modal-project-action_form-texteditor"></textarea>
                     </div>
                 </div>
             </div>
@@ -163,7 +230,8 @@
 <div id="modal-category-action" style="display: none;">
     <section class="slds-modal slds-fade-in-open">
         <div class="slds-modal__container">
-            <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" onclick="closeModalCategory()">
+            <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse"
+                    onclick="closeModalCategory()">
                 <svg class="slds-button__icon slds-button__icon_large" aria-hidden="true">
                     <use xlink:href="/assets/resources/icons/utility-sprite/svg/symbols.svg#close"></use>
                 </svg>
@@ -182,7 +250,8 @@
                 <br>
                 <div class="slds-form-element">
                     <label class="slds-checkbox_toggle slds-grid">
-                        <span class="slds-form-element__label slds-m-bottom_none">Statut<abbr class="slds-required">*</abbr></span>
+                        <span class="slds-form-element__label slds-m-bottom_none">Statut<abbr
+                                    class="slds-required">*</abbr></span>
                         <br>
                         <input type="checkbox" id="modal-category-action_status" checked>
                         <span class="slds-checkbox_faux_container">

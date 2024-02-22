@@ -5,24 +5,13 @@
  * @param id
  */
 function showModalProject(action, id) {
-    const editor = tinymce.get("modal-project-action_form-texteditor");
-    $("#modal-project-action_title").html(action === "edit" ? "Modifier un projet - ID : " + id : "Ajouter un projet");
-    $("#modal-project-action_valid").html(action === "edit" ? "Modifier" : "Ajouter").attr("onclick", action === "edit" ? "editProject(" + id + ")" : "addProject()");
+    $("#modal-project-action_title").html(action === "update" ? "Modifier un projet - ID : " + id : "Ajouter un projet");
+    $("#modal-project-action_valid").html(action === "update" ? "Modifier" : "Ajouter").attr("onclick", action === "update" ? "updateProject(" + id + ")" : "addProject()");
 
     const categories = getCategoriesList();
 
-    if (action === "edit") {
-        const project = getProject(id);
-        $("#modal-project-action_form-title").val(project["TITLE"]);
-        $("#modal-project-action_form-status").prop("checked", project.STATUS === "1");
-        $("#modal-project-action_form-category").html(function () {
-            let html = "";
-            categories.forEach(category => {
-                html += "<option value='" + category["ID_CATEGORY"] + "' " + (category["ID_CATEGORY"] === project["ID_CATEGORY"] ? "selected" : "") + ">" + category["NAME"] + "</option>";
-            });
-            return html;
-        });
-        editor.setContent(project["TEXT"]);
+    if (action === "update") {
+
     } else {
         $("#modal-project-action_form-title").val("");
         $("#modal-project-action_form-status").prop("checked", true);
@@ -33,7 +22,6 @@ function showModalProject(action, id) {
             });
             return html;
         });
-        editor.setContent("");
     }
 
     $("#modal-project-action").show();
@@ -44,10 +32,6 @@ function showModalProject(action, id) {
  */
 function closeModalProject() {
     $("#modal-project-action").hide();
-    const editor = tinymce.EditorManager.activeEditor;
-    if (editor) {
-        editor.resetContent();
-    }
     $("#modal-project-action_toast").html("");
 }
 
@@ -133,7 +117,7 @@ function addProject() {
     });
 }
 
-function editProject(id) {
+function updateProject(id) {
     const title = $("#modal-project-action_form-title").val();
     const status = $("#modal-project-action_form-status").is(":checked") ? 1 : 0;
     const category = $("#modal-project-action_form-category").val();
@@ -185,7 +169,6 @@ function editProject(id) {
  */
 function updateProjectsList() {
     let projects = getProjectsList();
-    console.log(JSON.stringify(projects));
     projectsDatatable.clear();
     projectsDatatable.rows.add(projects);
     projectsDatatable.draw();
