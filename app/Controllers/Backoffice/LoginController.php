@@ -28,10 +28,12 @@ class LoginController extends BaseController
         $username = $this->request->getPost("username");
         $password = $this->request->getPost("password");
 
-        $user = $manager->where("USERNAME", $username)->first();
+        $user = $manager->where("username", $username)->first();
 
         if ($user) {
-            if (password_verify($password, $user["PASSWORD"])) {
+            if (password_verify($password, $user["password"])) {
+                session()->set("user", $user);
+                session()->set("isLoggedIn", true);
                 return redirect()->to("/backoffice");
             }
         }

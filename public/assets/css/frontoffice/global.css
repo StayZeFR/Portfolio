@@ -1,6 +1,11 @@
 @font-face {
     font-family: neoteric;
-    src: url("../fonts/Neoteric-32A8.ttf");
+    src: url("../fonts/Neoteric/Neoteric-32A8.ttf");
+}
+
+@font-face {
+    font-family: spacemono;
+    src: url("../fonts/SpaceMono/SpaceMono-Regular.ttf");
 }
 
 html, body {
@@ -68,5 +73,5 @@ body {
 }
 
 #article {
-    padding: 0 200px;
+    padding: 50px 200px;
 }

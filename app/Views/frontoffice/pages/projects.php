@@ -2,6 +2,7 @@
 
 <?= $this->section("assets") ?>
 <link rel="stylesheet" href="<?= base_url("assets/css/frontoffice/projects.css") ?>">
+<script src="<?= base_url("assets/js/frontoffice/projects.js") ?>"></script>
 <?= $this->endSection() ?>
 
 <?= $this->section("main") ?>
@@ -16,7 +17,13 @@
         </div>
     </div>
     <div id="article">
-
+        <div id="filter-projects">
+            <input type="text" id="filter-search" class="filter-input" placeholder="Votre recherche...">
+            <select id="filter-category" class="filter-input">
+            </select>
+            <input type="button" id="filter-button" class="filter-input" value="Filtrer" onclick="filter()">
+        </div>
+        <div id="projects-list"></div>
     </div>
 </div>
 <?= $this->endSection() ?>

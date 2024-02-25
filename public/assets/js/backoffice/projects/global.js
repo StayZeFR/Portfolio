@@ -20,6 +20,17 @@ function toggleAction(element) {
     currentOpenedAction = status ? null : element;
 }
 
+$(document).on("click", function (e) {
+    if (!$(e.target).hasClass("actions")) {
+        if (currentOpenedAction !== null) {
+            $(currentOpenedAction).parent().removeClass("slds-is-open");
+            const html = $(currentOpenedAction).html().replaceAll("down", "up");
+            $(currentOpenedAction).html(html);
+            currentOpenedAction = null;
+        }
+    }
+});
+
 $(document).ready(function () {
     const htmlAction = (target, id) => "<div class='slds-dropdown-trigger slds-dropdown-trigger_click'>" +
         "<button class='slds-button slds-button_icon slds-button_icon-border-filled actions' onclick='toggleAction(this)'>" +
@@ -49,18 +60,18 @@ $(document).ready(function () {
             url: "/assets/libs/datatables/languages/fr-FR.json"
         },
         columns: [
-            { title: "ID", data: "ID" },
-            { title: "Catégorie", data: "CATEGORY" },
-            { title: "Titre", data: "TITLE" },
-            { title: "Créer par", data: "USER_CREATION" },
-            { title: "Créer le", data: "DATE_CREATION" },
-            { title: "Modifier par", data: "USER_MODIFICATION" },
-            { title: "Modifier le", data: "DATE_MODIFICATION" },
-            { title: "Statue", data: "STATUS", render: function (data) {
+            { title: "ID", data: "id" },
+            { title: "Catégorie", data: "category_id" },
+            { title: "Titre", data: "title" },
+            { title: "Créer par", data: "created_by" },
+            { title: "Créer le", data: "created_at" },
+            { title: "Modifier par", data: "updated_by" },
+            { title: "Modifier le", data: "updated_at" },
+            { title: "Statue", data: "status", render: function (data) {
                     return data === "1" ? "Actif" : "Inactif";
                 }
             },
-            { title: "Actions", data: "ID", render: function (data) {
+            { title: "Actions", data: "id", render: function (data) {
                     return htmlAction("project", data);
                 }
             }
@@ -72,13 +83,13 @@ $(document).ready(function () {
             url: "/assets/libs/datatables/languages/fr-FR.json"
         },
         columns: [
-            { title: "ID", data: "ID_CATEGORY" },
-            { title: "Nom", data: "NAME" },
-            { title: "Statue", data: "STATUS", render: function (data) {
+            { title: "ID", data: "id" },
+            { title: "Nom", data: "name" },
+            { title: "Statue", data: "status", render: function (data) {
                     return data === "1" ? "Actif" : "Inactif";
                 }
             },
-            { title: "Actions", data: "ID_CATEGORY", render: function (data) {
+            { title: "Actions", data: "id", render: function (data) {
                     return htmlAction("category", data);
                 }
             }

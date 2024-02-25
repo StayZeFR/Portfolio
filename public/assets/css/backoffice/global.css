@@ -16,3 +16,33 @@ body {
 .tox-tinymce-aux {
     z-index: 9999 !important;
 }
+
+input[type=file] {
+    width: 350px;
+    height: 32px;
+    max-width: 100%;
+    color: #0176d3;
+    padding: 5px;
+    background-color: #fff;
+    border: 1px solid #0176d3;
+    border-radius: 3px;
+}
+
+input[type=file]:focus {
+    outline: 2px dashed #0176d3;
+    outline-offset: 2px;
+}
+
+input[type=file]::file-selector-button {
+    margin-right: 8px;
+    border: none;
+    background: #0176d3;
+    padding: 5px 8px;
+    color: #fff;
+    cursor: pointer;
+    font-size: 10px;
+}
+
+input[type=file]::file-selector-button:hover {
+    background: #014486;
+}

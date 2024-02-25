@@ -23,9 +23,9 @@ $routes->get("/technology-watch", "Frontoffice\TechnologyWatchController::view",
  * --------------------------------------------------------------------
  */
 $routes->get("/login", "Backoffice\LoginController::view", ["as" => "BACKOFFICE-LOGIN"]);
-$routes->post("/login", "Backoffice\LoginController::login", ["as" => "BACKOFFICE-LOGIN"]);
+$routes->post("/login", "Backoffice\LoginController::login", ["as" => "BACKOFFICE-LOGIN-POST"]);
 
-$routes->group("backoffice", function (RouteCollection $routes) {
+$routes->group("backoffice", ["filter" => "authGuard"], function (RouteCollection $routes) {
     $routes->get("", "Backoffice\HomeController::view", ["as" => "BACKOFFICE-HOME"]);
     //$routes->get("/backoffice/profile", "Backoffice\ProfileController::view", ["as" => "BACKOFFICE-PROFILE"]);
     $routes->get("projects", "Backoffice\ProjectsController::view", ["as" => "BACKOFFICE-PROJECTS"]);
@@ -44,6 +44,7 @@ $routes->group("api", function (RouteCollection $routes) {
         $routes->post("add", "API\ProjectController::addProject");
         $routes->post("delete", "API\ProjectController::deleteProject");
         $routes->post("update", "API\ProjectController::updateProject");
+        $routes->post("files/(:num)", "API\ProjectController::getProjectFiles/$1");
     });
 
     $routes->group("categories", function (RouteCollection $routes) {

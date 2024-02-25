@@ -78,8 +78,9 @@ function addCategory() {
             type: "POST",
             dataType: "json",
             data: {
-                NAME: name,
-                STATUS: (status ? 1 : 0)
+                name: name,
+                status: (status ? 1 : 0),
+                user_id: 1 // TODO: Get user ID
             },
             success: function (data) {
                 closeModalCategory();

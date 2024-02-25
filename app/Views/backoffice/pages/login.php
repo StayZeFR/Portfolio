@@ -34,13 +34,13 @@
             <div class="slds-form-element slds-p-vertical_large">
                 <label class="slds-form-element__label" for="text-input-id-1">Nom d'utilisateur</label>
                 <div class="slds-form-element__control">
-                    <input type="text" id="username" class="slds-input">
+                    <input type="text" id="username" name="username" class="slds-input">
                 </div>
             </div>
             <div class="slds-form-element slds-p-vertical_large">
                 <label class="slds-form-element__label" for="text-input-id-1">Mot de passe</label>
                 <div class="slds-form-element__control">
-                    <input type="password" id="password" class="slds-input">
+                    <input type="password" id="password" name="password" class="slds-input">
                 </div>
             </div>
             <div class="slds-form-element slds-p-vertical_large">

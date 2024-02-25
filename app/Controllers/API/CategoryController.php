@@ -30,7 +30,16 @@ class CategoryController extends BaseController
     public function getCategories(): ResponseInterface
     {
         $manager = new CategoryModel();
-        $categories = $manager->findAll();
+        $status = $this->request->getGet("status") ?? "";
+
+        $builder = $manager->builder();
+        $builder->select("category.*");
+
+        if ($status !== "") {
+            $builder->where("status", $status);
+        }
+
+        $categories = $builder->get()->getResultArray();
         return $this->response->setJSON($categories);
     }
 

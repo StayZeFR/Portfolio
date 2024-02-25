@@ -18,13 +18,73 @@ function showModalProject(action, id) {
         $("#modal-project-action_form-category").html(function () {
             let html = "<option value=''>Sélectionner une categorie...</option>";
             categories.forEach(category => {
-                html += "<option value='" + category["ID_CATEGORY"] + "'>" + category["NAME"] + "</option>";
+                html += "<option value='" + category["id"] + "'>" + category["name"] + "</option>";
             });
             return html;
         });
+        $("#modal-project-action_form-docs").html(getHtmlDocInput("", true, false));
     }
 
     $("#modal-project-action").show();
+}
+
+function getHtmlDocInput(name, add, remove = false) {
+    let id = generateRandomId();
+    return "<div class='slds-col' style='margin-bottom: 5px;'>" +
+        "    <div class='slds-grid slds-gutters'>" +
+        "        <div class='slds-col'>" +
+        "            <div class='slds-form-element__control'>" +
+        "                <input type='text' placeholder='Nom' class='slds-input modal-project-action_form-doc-name'' " + (name === "" ? "" : ("value='" + name + "'")) + "/>" +
+        "            </div>" +
+        "        </div>" +
+        "        <div class='slds-col'>" +
+        "           <input type='file' class='modal-project-action_form-doc-file' accept='application/pdf'/>" +
+        "        </div>" +
+        "        <div class='slds-col' style='width: 50px !important;'>" +
+        "            <button class='slds-button slds-button_icon slds-button_icon-brand button-doc-remove' onclick='removeDocInput(this)' " + (remove ? "" : "disabled") + ">" +
+        "                <svg class='slds-button__icon' aria-hidden='true'>" +
+        "                    <use xlink:href='/assets/resources/icons/utility-sprite/svg/symbols.svg#delete'></use>" +
+        "                </svg>" +
+        "            </button>" +
+        "            <button class='slds-button slds-button_icon slds-button_icon-brand button-doc-add' onclick='addDocInput();' style='display: " + (add ? "inline-flex" : "none") + "'>" +
+        "                <svg class='slds-button__icon' aria-hidden='true'>" +
+        "                    <use xlink:href='/assets/resources/icons/utility-sprite/svg/symbols.svg#add'></use>" +
+        "                </svg>" +
+        "            </button>" +
+        "        </div>" +
+        "    </div>" +
+        "</div>";
+}
+
+/**
+ * Generate random id
+ * @returns {string}
+ */
+function generateRandomId() {
+    return "id_" + Math.random().toString(36).substr(2, 9) + "_" + Date.now().toString(36);
+}
+
+/**
+ * Add document input for project action
+ */
+function addDocInput() {
+    const docs = $("#modal-project-action_form-docs");
+    let children = docs.children().get();
+    $(children[children.length - 1]).find(".button-doc-add").hide();
+    $(children[children.length - 1]).find(".button-doc-remove").attr("disabled", false);
+    docs.append(getHtmlDocInput("", true, true));
+}
+
+/**
+ * Remove document input for project action
+ * @param element
+ */
+function removeDocInput(element) {
+    $(element).parent().parent().parent().remove();
+    const docs = $("#modal-project-action_form-docs");
+    let children = docs.children().get();
+    $(children[children.length - 1]).find(".button-doc-add").show();
+    $(children[children.length - 1]).find(".button-doc-remove").attr("disabled", children.length === 1);
 }
 
 /**
@@ -72,48 +132,114 @@ function getProjectsList() {
 /**
  * Add project to database with API
  */
-function addProject() {
+async function addProject() {
     const title = $("#modal-project-action_form-title").val();
     const status = $("#modal-project-action_form-status").is(":checked") ? 1 : 0;
     const category = $("#modal-project-action_form-category").val();
-    const text = tinymce.get("modal-project-action_form-texteditor").getContent();
-    $.ajax({
-        url: "/api/projects/add",
-        type: "POST",
-        dataType: "json",
-        async: false,
-        data: {
+    const children = $("#modal-project-action_form-docs").children().get();
+    let files = [];
+
+    for (let i = 0; i < children.length; i++) {
+        let name = $(children[i]).find(".modal-project-action_form-doc-name").val().trim();
+        let content;
+        let file = $(children[i]).find(".modal-project-action_form-doc-file")[0].files[0];
+        if (file) {
+            content = await readFileContent(file);
+        }
+        files.push({
+            name: name,
+            file: content
+        });
+    }
+
+    let error = false;
+    for (let i = 0; i < files.length; i++) {
+        if (files[i].file === undefined || files[i].file === "" || files[i].name === "") {
+            error = true;
+            break;
+        }
+    }
+
+    if (title === "" || category === "" || files.length === 0 || error) {
+        Swal.fire({
+            icon: "error",
+            title: "Champs manquants",
+            text: "Veuillez remplir tous les champs.",
+            toast: true,
+            position: "top-end",
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true
+        });
+    } else {
+
+        let data = {
             title: title,
             status: status,
             category: category,
-            text: text
-        },
-        success: function (data) {
-            closeModalProject();
-            updateProjectsList();
-            Swal.fire({
-                icon: "success",
-                title: "Projet ajouté",
-                text: "Le projet a bien été ajouté.",
-                toast: true,
-                position: "top-end",
-                showConfirmButton: false,
-                timer: 3000,
-                timerProgressBar: true
-            });
-        },
-        error: function (e) {
-            Swal.fire({
-                icon: "error",
-                title: "Une erreur est survenue",
-                text: "Une erreur est survenue lors de l'ajout du projet.",
-                toast: true,
-                position: "top-end",
-                showConfirmButton: false,
-                timer: 3000,
-                timerProgressBar: true
-            });
-        }
+            user: 1, // TODO: Get user id
+            files: files
+        };
+
+        $.ajax({
+            url: "/api/projects/add",
+            type: "POST",
+            dataType: "json",
+            async: false,
+            data: JSON.stringify(data),
+            success: function (data, status, xhr) {
+                closeModalProject();
+                updateProjectsList();
+                if (xhr.status === 201) {
+                    Swal.fire({
+                        icon: "success",
+                        title: "Projet ajouté",
+                        text: "Le projet a bien été ajouté.",
+                        toast: true,
+                        position: "top-end",
+                        showConfirmButton: false,
+                        timer: 3000,
+                        timerProgressBar: true
+                    });
+                } else {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Une erreur est survenue",
+                        text: "Une erreur est survenue lors de l'ajout du projet.",
+                        toast: true,
+                        position: "top-end",
+                        showConfirmButton: false,
+                        timer: 3000,
+                        timerProgressBar: true
+                    });
+                }
+            },
+            error: function (e) {
+                console.log(e);
+                Swal.fire({
+                    icon: "error",
+                    title: "Une erreur est survenue",
+                    text: "Une erreur est survenue lors de l'ajout du projet.",
+                    toast: true,
+                    position: "top-end",
+                    showConfirmButton: false,
+                    timer: 3000,
+                    timerProgressBar: true
+                });
+            }
+        });
+    }
+}
+
+function readFileContent(file) {
+    return new Promise((resolve, reject) => {
+        let reader = new FileReader();
+        reader.onload = function(e) {
+            resolve(e.target.result);
+        };
+        reader.onerror = reject;
+        reader.readAsDataURL(file);
+        console.log("ICI")
     });
 }
 
