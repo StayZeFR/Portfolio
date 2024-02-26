@@ -72,16 +72,18 @@ function getProjectFiles(id) {
 function filter() {
     const category = $("#filter-category").val();
     const search = $("#filter-search").val();
-    const projects = getProjectsList(1, category, search);
+    const projects = getProjectsList(USER["id"], category, search);
 
     $("#projects-list").html("");
     projects.forEach(function (project) {
         const docs = getProjectFiles(project["id"]);
-        let img = (project["image_path"] !== null) ? project["image_path"] : "assets/resources/images/no-image.png";
+        let img = (project["image_path"] !== null) ? ("<img class='contains-image' src='" + project["image_path"] + "' alt=''>") : "<img class='no-image' src='assets/resources/images/no-image.png' alt=''>";
+
+        console.log(img);
 
         let html = "<div class='project'>" +
             "<div class='project-image'>" +
-            "<img class='no-image' src='" + img + "' alt=''>" +
+            img +
             "</div>" +
             "<div class='project-content'>" +
             "<h2>" + project["title"] +  "</h2>" +
@@ -101,7 +103,7 @@ function filter() {
 }
 
 $(document).ready(function () {
-    const categories = getCategoriesList(1);
+    const categories = getCategoriesList(USER["id"]);
 
     $("#filter-category").append("<option value=''>Toutes les catégories</option>");
     categories.forEach(function (category) {

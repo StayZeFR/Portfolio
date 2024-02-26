@@ -89,7 +89,7 @@ CREATE TABLE IF NOT EXISTS project (
     user_id INTEGER NOT NULL,
     title TEXT NOT NULL,
     status INTEGER DEFAULT 1,
-    description TEXT DEFAULT NULL,
+    description VARCHAR(255) DEFAULT NULL,
     image_path VARCHAR(255) DEFAULT NULL,
     category_id INTEGER NOT NULL,
     created_by INTEGER NOT NULL,

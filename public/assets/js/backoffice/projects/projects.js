@@ -22,6 +22,7 @@ function showModalProject(action, id) {
             });
             return html;
         });
+        $("#modal-project-action_form-doc-img").val("");
         $("#modal-project-action_form-docs").html(getHtmlDocInput("", true, false));
     }
 
@@ -31,28 +32,28 @@ function showModalProject(action, id) {
 function getHtmlDocInput(name, add, remove = false) {
     let id = generateRandomId();
     return "<div class='slds-col' style='margin-bottom: 5px;'>" +
-        "    <div class='slds-grid slds-gutters'>" +
-        "        <div class='slds-col'>" +
-        "            <div class='slds-form-element__control'>" +
-        "                <input type='text' placeholder='Nom' class='slds-input modal-project-action_form-doc-name'' " + (name === "" ? "" : ("value='" + name + "'")) + "/>" +
-        "            </div>" +
-        "        </div>" +
-        "        <div class='slds-col'>" +
-        "           <input type='file' class='modal-project-action_form-doc-file' accept='application/pdf'/>" +
-        "        </div>" +
-        "        <div class='slds-col' style='width: 50px !important;'>" +
-        "            <button class='slds-button slds-button_icon slds-button_icon-brand button-doc-remove' onclick='removeDocInput(this)' " + (remove ? "" : "disabled") + ">" +
-        "                <svg class='slds-button__icon' aria-hidden='true'>" +
-        "                    <use xlink:href='/assets/resources/icons/utility-sprite/svg/symbols.svg#delete'></use>" +
-        "                </svg>" +
-        "            </button>" +
-        "            <button class='slds-button slds-button_icon slds-button_icon-brand button-doc-add' onclick='addDocInput();' style='display: " + (add ? "inline-flex" : "none") + "'>" +
-        "                <svg class='slds-button__icon' aria-hidden='true'>" +
-        "                    <use xlink:href='/assets/resources/icons/utility-sprite/svg/symbols.svg#add'></use>" +
-        "                </svg>" +
-        "            </button>" +
-        "        </div>" +
-        "    </div>" +
+        "<div class='slds-grid slds-gutters'>" +
+        "<div class='slds-col'>" +
+        "<div class='slds-form-element__control'>" +
+        "<input type='text' placeholder='Nom' class='slds-input modal-project-action_form-doc-name'' " + (name === "" ? "" : ("value='" + name + "'")) + "/>" +
+        "</div>" +
+        "</div>" +
+        "<div class='slds-col'>" +
+        "<input type='file' class='modal-project-action_form-doc-file' accept='application/pdf'/>" +
+        "</div>" +
+        "<div class='slds-col' style='width: 50px !important;'>" +
+        "<button class='slds-button slds-button_icon slds-button_icon-brand button-doc-remove' onclick='removeDocInput(this)' " + (remove ? "" : "disabled") + ">" +
+        "<svg class='slds-button__icon' aria-hidden='true'>" +
+        "<use xlink:href='/assets/resources/icons/utility-sprite/svg/symbols.svg#delete'></use>" +
+        "</svg>" +
+        "</button>" +
+        "<button class='slds-button slds-button_icon slds-button_icon-brand button-doc-add' onclick='addDocInput();' style='display: " + (add ? "inline-flex" : "none") + "'>" +
+        "<svg class='slds-button__icon' aria-hidden='true'>" +
+        "<use xlink:href='/assets/resources/icons/utility-sprite/svg/symbols.svg#add'></use>" +
+        "</svg>" +
+        "</button>" +
+        "</div>" +
+        "</div>" +
         "</div>";
 }
 
@@ -136,6 +137,8 @@ async function addProject() {
     const title = $("#modal-project-action_form-title").val();
     const status = $("#modal-project-action_form-status").is(":checked") ? 1 : 0;
     const category = $("#modal-project-action_form-category").val();
+    const image = ($("#modal-project-action_form-doc-img")[0].files[0] ? await readFileContent($("#modal-project-action_form-doc-img")[0].files[0]) : "");
+    const description = $("#modal-project-action_form-description").val();
     const children = $("#modal-project-action_form-docs").children().get();
     let files = [];
 
@@ -177,7 +180,9 @@ async function addProject() {
             title: title,
             status: status,
             category: category,
-            user: 1, // TODO: Get user id
+            image: image,
+            description: description,
+            user: USER["id"],
             files: files
         };
 
@@ -241,6 +246,61 @@ function readFileContent(file) {
         reader.readAsDataURL(file);
         console.log("ICI")
     });
+}
+
+/**
+ * Delete project from database with API
+ *
+ * @param id
+ */
+function deleteProject(id) {
+    Swal.fire({
+        title: "Êtes-vous sûr ?",
+        text: "Voulez-vous vraiment supprimer ce projet ?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: "Oui",
+        cancelButtonText: "Non",
+        reverseButtons: true
+    }).then((result) => {
+        if (result.isConfirmed) {
+            $.ajax({
+                url: "/api/projects/delete",
+                type: "POST",
+                dataType: "json",
+                async: false,
+                data: {
+                    id: id
+                },
+                success: function (data) {
+                    updateProjectsList();
+                    Swal.fire({
+                        icon: "success",
+                        title: "Projet supprimé",
+                        text: "Le projet a bien été supprimé.",
+                        toast: true,
+                        position: "top-end",
+                        showConfirmButton: false,
+                        timer: 3000,
+                        timerProgressBar: true
+                    });
+                },
+                error: function (e) {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Une erreur est survenue",
+                        text: "Une erreur est survenue lors de la suppression du projet.",
+                        toast: true,
+                        position: "top-end",
+                        showConfirmButton: false,
+                        timer: 3000,
+                        timerProgressBar: true
+                    });
+                }
+            });
+        }
+    });
+
 }
 
 function updateProject(id) {

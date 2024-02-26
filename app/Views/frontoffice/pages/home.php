@@ -11,7 +11,7 @@
         <div id="filter">
             <div id="filter-content">
                 <h1>BIENVENUE</h1>
-                <h2>Je m'appelle <b><span>Blandin Ilann</span></b>
+                <h2>Je m'appelle <b><span id="name"></span></b>
                 </h2>
                 <a href="<?= url_to("FRONTOFFICE-PROFILE") ?>" id="btn-more">En savoir plus</a>
             </div>

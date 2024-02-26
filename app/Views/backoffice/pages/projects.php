@@ -131,8 +131,22 @@
                                     </label>
                                 </div>
                             </div>
+                            <div class="slds-col">
+                                <label class="slds-form-element__label" for="modal-project-action_form-doc-img">Image</label>
+                                <br>
+                                <input type="file" id="modal-project-action_form-doc-img" accept="image/png"/>
+                            </div>
                         </div>
 
+                    </div>
+                    <hr style="margin: 10px 0;">
+                    <div class="slds-col">
+                        <div class="slds-form-element">
+                            <label class="slds-form-element__label" for="modal-project-action_form-description">Description</label>
+                            <div class="slds-form-element__control">
+                                <textarea id="modal-project-action_form-description" class="slds-textarea" maxlength="255"></textarea>
+                            </div>
+                        </div>
                     </div>
                     <hr style="margin: 10px 0;">
                     <div class="slds-col">

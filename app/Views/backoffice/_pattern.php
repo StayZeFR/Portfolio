@@ -11,6 +11,10 @@
     <link rel="stylesheet" href="<?= base_url("assets/libs/salesforce/salesforce-lightning-design-system.css") ?>">
     <link rel="stylesheet" href="<?= base_url("assets/libs/datatables/datatables.min.css") ?>">
 
+    <script>
+        const BASE_URL = "<?= base_url() ?>";
+        const USER = <?= json_encode(session()->get("user")) ?>;
+    </script>
     <script src="<?= base_url("assets/libs/jquery/jquery.js") ?>"></script>
     <script src="<?= base_url("assets/libs/datatables/datatables.min.js") ?>"></script>
     <script src="<?= base_url("assets/libs/sweetalert/sweetalert.js") ?>"></script>
