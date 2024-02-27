@@ -117,7 +117,9 @@ class ProjectController extends BaseController
             $path = self::DOCUMENTS_PATH . $id . "/";
             try {
                 $base64data = substr($file["file"], strpos($file["file"], ",") + 1);
-                mkdir($path, 0777, true);
+                if (!is_dir($path)) {
+                    mkdir($path, 0777, true);
+                }
                 write_file($path . $name . ".pdf", base64_decode($base64data));
             } catch (Exception $e) {
                 $this->response->setStatusCode(500);
