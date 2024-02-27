@@ -80,7 +80,7 @@ function addCategory() {
             data: {
                 name: name,
                 status: (status ? 1 : 0),
-                user_id: 1 // TODO: Get user ID
+                user: USER["id"]
             },
             success: function (data) {
                 closeModalCategory();

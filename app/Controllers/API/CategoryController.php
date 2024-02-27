@@ -56,10 +56,20 @@ class CategoryController extends BaseController
      */
     public function addCategory(): ResponseInterface
     {
+        $name = trim($this->request->getPost("name"));
+        $status = intval(trim($this->request->getPost("status")));
+        $user = intval(trim($this->request->getPost("user")));
+
         $manager = new CategoryModel();
-        $data = $this->request->getPost();
+        $data = [
+            "name" => $name,
+            "status" => $status,
+            "user_id" => $user
+        ];
         $manager->insert($data);
-        return $this->response->setJSON($data);
+
+        $this->response->setStatusCode(201);
+        return $this->response->setJSON(["status" => "success", "message" => "Category created successfully"]);
     }
 
     /**

@@ -66,13 +66,9 @@ CREATE TABLE IF NOT EXISTS category (
     user_id INTEGER NOT NULL,
     name VARCHAR(255) NOT NULL,
     status INTEGER DEFAULT 1,
-    created_by INTEGER NOT NULL,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-    updated_by INTEGER DEFAULT NULL,
     updated_at DATETIME DEFAULT NULL,
-    FOREIGN KEY (user_id) REFERENCES user(id),
-    FOREIGN KEY (updated_by) REFERENCES user(id),
-    FOREIGN KEY (created_by) REFERENCES user(id)
+    FOREIGN KEY (user_id) REFERENCES user(id)
 );
 
 CREATE TABLE IF NOT EXISTS profile (
@@ -92,14 +88,10 @@ CREATE TABLE IF NOT EXISTS project (
     description VARCHAR(255) DEFAULT NULL,
     image_path VARCHAR(255) DEFAULT NULL,
     category_id INTEGER NOT NULL,
-    created_by INTEGER NOT NULL,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-    updated_by INTEGER DEFAULT NULL,
     updated_at DATETIME DEFAULT NULL,
     FOREIGN KEY (user_id) REFERENCES user(id),
-    FOREIGN KEY (category_id) REFERENCES category(id),
-    FOREIGN KEY (updated_by) REFERENCES user(id),
-    FOREIGN KEY (created_by) REFERENCES user(id)
+    FOREIGN KEY (category_id) REFERENCES category(id)
 );
 
 CREATE TABLE IF NOT EXISTS project_file (
@@ -107,20 +99,26 @@ CREATE TABLE IF NOT EXISTS project_file (
     project_id INTEGER NOT NULL,
     name VARCHAR(255) NOT NULL,
     file_path TEXT NOT NULL,
-    created_by INTEGER NOT NULL,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (project_id) REFERENCES project(id),
-    FOREIGN KEY (created_by) REFERENCES user(id)
+    FOREIGN KEY (project_id) REFERENCES project(id)
 );
 
 
 DELIMITER //
-CREATE TRIGGER after_insert_user
+CREATE TRIGGER before_insert_user
     BEFORE INSERT
     ON user FOR EACH ROW
 BEGIN
-    INSERT INTO profile (user_id, body, logo_path, cv_path) VALUES (NEW.id, '', '', '');
     SET NEW.username = CONCAT(NEW.first_name, '.', NEW.last_name);
+END //
+DELIMITER ;
+
+DELIMITER //
+CREATE TRIGGER after_insert_user
+    AFTER INSERT
+    ON user FOR EACH ROW
+BEGIN
+    INSERT INTO profile (user_id, body, logo_path, cv_path) VALUES (NEW.id, '', '', '');
 END //
 DELIMITER ;
 

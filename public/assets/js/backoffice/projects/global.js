@@ -63,9 +63,7 @@ $(document).ready(function () {
             { title: "ID", data: "id" },
             { title: "Catégorie", data: "category_id" },
             { title: "Titre", data: "title" },
-            { title: "Créer par", data: "created_by" },
             { title: "Créer le", data: "created_at" },
-            { title: "Modifier par", data: "updated_by" },
             { title: "Modifier le", data: "updated_at" },
             { title: "Statue", data: "status", render: function (data) {
                     return data === "1" ? "Actif" : "Inactif";
