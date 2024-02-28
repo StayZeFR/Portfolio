@@ -35,7 +35,7 @@
                 </a>
             </li>
             <li class="slds-context-bar__item <?= $page == "BACKOFFICE-PROFILE" ? "slds-is-active" : "" ?>">
-                <a href="#" class="slds-context-bar__label-action" title="Profil">
+                <a href="<?= url_to("BACKOFFICE-PROFILE") ?>" class="slds-context-bar__label-action" title="Profil">
                     <span class="slds-icon_container slds-icon-utility-announcement">
                         <svg class="slds-icon slds-icon-text-default" aria-hidden="true" style="width: 20px; margin-right: 5px;">
                             <use xlink:href="/assets/resources/icons/utility-sprite/svg/symbols.svg#identity"></use>

@@ -41,7 +41,7 @@ $(document).ready(function () {
         "<div class='slds-dropdown slds-dropdown_left'>" +
         "<ul class='slds-dropdown__list'>" +
         "<li class='slds-dropdown__item'>" +
-        "<a href='javascript:" + (target === "project" ? "showModalProject(\"edit\", " + id + ")" : "showModalCategory(\"edit\", " + id + ")") + "'>" +
+        "<a href='javascript:" + (target === "project" ? "showModalProject(\"update\", " + id + ")" : "showModalCategory(\"update\", " + id + ")") + "'>" +
         "<span class='slds-truncate'>Modifier</span>" +
         "</a>" +
         "</li>" +

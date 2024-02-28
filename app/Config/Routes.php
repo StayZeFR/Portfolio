@@ -29,7 +29,7 @@ $routes->post("/login", "Backoffice\LoginController::login", ["as" => "BACKOFFIC
 
 $routes->group("backoffice", ["filter" => "authGuard"], function (RouteCollection $routes) {
     $routes->get("", "Backoffice\HomeController::view", ["as" => "BACKOFFICE-HOME"]);
-    //$routes->get("/backoffice/profile", "Backoffice\ProfileController::view", ["as" => "BACKOFFICE-PROFILE"]);
+    $routes->get("profile", "Backoffice\ProfileController::view", ["as" => "BACKOFFICE-PROFILE"]);
     $routes->get("projects", "Backoffice\ProjectsController::view", ["as" => "BACKOFFICE-PROJECTS"]);
 });
 

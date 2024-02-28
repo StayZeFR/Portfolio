@@ -13,7 +13,7 @@ class ProjectModel extends Model
     protected $returnType = "array";
     protected $useSoftDeletes = false;
     protected $protectFields = true;
-    protected $allowedFields = ["id", "user_id", "title", "status", "description", "image_path", "category_id", "created_by", "created_at", "updated_by", "updated_at"];
+    protected $allowedFields = ["id", "user_id", "title", "status", "description", "image_path", "category_id", "created_at", "updated_at"];
 
     protected $useTimestamps = false;
     protected $dateFormat = "datetime";

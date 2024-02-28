@@ -19,6 +19,7 @@ class CategoryController extends BaseController
     {
         $manager = new CategoryModel();
         $category = $manager->find($id);
+        $this->response->setStatusCode(200);
         return $this->response->setJSON($category);
     }
 
@@ -81,8 +82,9 @@ class CategoryController extends BaseController
     {
         $manager = new CategoryModel();
         $data = $this->request->getPost();
-        $manager->delete($data["ID"]);
-        return $this->response->setJSON($data);
+        $manager->delete($data["id"]);
+        $this->response->setStatusCode(200);
+        return $this->response->setJSON(["status" => "success", "message" => "Category deleted successfully"]);
     }
 
     /**
@@ -95,7 +97,8 @@ class CategoryController extends BaseController
     {
         $manager = new CategoryModel();
         $data = $this->request->getPost();
-        $manager->update($data["ID"], $data);
-        return $this->response->setJSON($data);
+        $manager->update($data["id"], $data);
+        $this->response->setStatusCode(200);
+        return $this->response->setJSON(["status" => "success", "message" => "Category updated successfully"]);
     }
 }

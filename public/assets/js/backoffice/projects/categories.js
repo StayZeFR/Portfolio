@@ -5,13 +5,13 @@
  * @param id
  */
 function showModalCategory(action, id) {
-    $("#modal-category-action_title").html(action === "edit" ? "Modifier une catégorie - ID : " + id : "Ajouter une catégorie");
-    $("#modal-category-action_valid").html(action === "edit" ? "Modifier" : "Ajouter").attr("onclick", action === "edit" ? "updateCategory(" + id + ")" : "addCategory()");
+    $("#modal-category-action_title").html(action === "update" ? "Modifier une catégorie - ID : " + id : "Ajouter une catégorie");
+    $("#modal-category-action_valid").html(action === "update" ? "Modifier" : "Ajouter").attr("onclick", action === "update" ? "updateCategory(" + id + ")" : "addCategory()");
 
-    if (action === "edit") {
+    if (action === "update") {
         const category = getCategory(id);
-        $("#modal-category-action_name").val(category.NAME);
-        $("#modal-category-action_status").prop("checked", category.STATUS === "1");
+        $("#modal-category-action_name").val(category["name"]);
+        $("#modal-category-action_status").prop("checked", category["status"] === "1");
     }
 
     $("#modal-category-action").show();
@@ -120,37 +120,36 @@ function addCategory() {
  * @param id
  */
 function deleteCategory(id) {
-    console.log(id);
-    $.ajax({
-        url: "/api/categories/delete",
-        type: "POST",
-        dataType: "json",
-        data: {
-            ID: id
-        },
-        success: function (data) {
-            updateCategoriesList();
-            Swal.fire({
-                title: "Catégorie supprimée",
-                text: "La catégorie a bien été supprimée !",
-                icon: "success",
-                toast: true,
-                position: "top-end",
-                showConfirmButton: false,
-                timer: 3000,
-                timerProgressBar: true
-            });
-        },
-        error: function (e) {
-            Swal.fire({
-                title: "Erreur",
-                text: "Une erreur est survenue lors de la suppression de la catégorie !",
-                icon: "error",
-                toast: true,
-                position: "top-end",
-                showConfirmButton: false,
-                timer: 3000,
-                timerProgressBar: true
+    Swal.fire({
+        title: "Êtes-vous sûr ?",
+        text: "Voulez-vous vraiment supprimer ce projet ?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: "Oui",
+        cancelButtonText: "Non",
+        reverseButtons: true
+    }).then((result) => {
+        if (result.isConfirmed) {
+            $.ajax({
+                url: "/api/categories/delete",
+                type: "POST",
+                dataType: "json",
+                data: {
+                    id: id
+                },
+                success: function (data) {
+                    updateCategoriesList();
+                    Swal.fire({
+                        title: "Catégorie supprimée",
+                        text: "La catégorie a bien été supprimée !",
+                        icon: "success",
+                        toast: true,
+                        position: "top-end",
+                        showConfirmButton: false,
+                        timer: 3000,
+                        timerProgressBar: true
+                    });
+                }
             });
         }
     });
@@ -170,9 +169,9 @@ function updateCategory(id) {
             type: "POST",
             dataType: "json",
             data: {
-                ID: id,
-                NAME: name,
-                STATUS: (status ? 1 : 0)
+                id: id,
+                name: name,
+                status: (status ? 1 : 0)
             },
             success: function (data) {
                 closeModalCategory();
