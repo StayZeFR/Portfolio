@@ -6,8 +6,6 @@
 <script src="<?= base_url("assets/js/backoffice/projects/global.js") ?>"></script>
 <script src="<?= base_url("assets/js/backoffice/projects/projects.js") ?>"></script>
 <script src="<?= base_url("assets/js/backoffice/projects/categories.js") ?>"></script>
-
-<script src="<?= base_url("assets/libs/tinymce/tinymce.min.js") ?>" referrerpolicy="origin"></script>
 <?= $this->endSection() ?>
 
 <?= $this->section("main") ?>

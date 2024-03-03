@@ -57,5 +57,10 @@ $routes->group("api", function (RouteCollection $routes) {
         $routes->post("update", "API\CategoryController::updateCategory");
     });
 
+    $routes->group("profile", function (RouteCollection $routes) {
+        $routes->post("(:num)", "API\ProfileController::getProfile/$1");
+        $routes->post("update/(:num)", "API\ProfileController::updateProfile/$1");
+    });
+
 });
 

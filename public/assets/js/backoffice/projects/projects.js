@@ -236,18 +236,6 @@ async function addProject() {
     }
 }
 
-function readFileContent(file) {
-    return new Promise((resolve, reject) => {
-        let reader = new FileReader();
-        reader.onload = function(e) {
-            resolve(e.target.result);
-        };
-        reader.onerror = reject;
-        reader.readAsDataURL(file);
-        console.log("ICI")
-    });
-}
-
 /**
  * Delete project from database with API
  *

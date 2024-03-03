@@ -35,4 +35,30 @@ class UserModel extends Model
     protected $afterFind = [];
     protected $beforeDelete = [];
     protected $afterDelete = [];
+
+    /**
+     * Get user by id
+     * @param int $id
+     * @return array
+     */
+    public function getUser(int $id): array
+    {
+        $builder = $this->builder();
+        $builder->select("id, username, first_name, last_name, email");
+        $builder->where("id", $id);
+        return $builder->get()->getRowArray();
+    }
+
+    /**
+     * Update user by id
+     * @param int $id
+     * @param array $data
+     * @return bool
+     */
+    public function updateUser(int $id, array $data): bool
+    {
+        $builder = $this->builder();
+        $builder->where("id", $id);
+        return $builder->update($data);
+    }
 }

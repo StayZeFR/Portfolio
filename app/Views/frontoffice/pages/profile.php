@@ -16,7 +16,16 @@
         </div>
     </div>
     <div id="article">
-
+        <div id="profile">
+            <div id="profile-picture" style="width: 200px; height: 200px; border-radius: 50%; background-image: url('<?= base_url(empty($profile["logo_path"]) ? "assets/resources/images/no-image.png" : $profile["logo_path"]) ?>'); background-repeat: no-repeat; background-size: cover;">
+            </div>
+            <div id="profile-info">
+                <h2><?= $profile["first_name"] . " " . $profile["last_name"] ?></h2>
+                <p><?= $profile["email"] ?></p>
+            </div>
+        </div>
+        <div id="profile-actions">
+        </div>
     </div>
 </div>
 <?= $this->endSection() ?>

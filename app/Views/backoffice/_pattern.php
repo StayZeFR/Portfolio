@@ -13,6 +13,7 @@
 
     <script>
         const BASE_URL = "<?= base_url() ?>";
+        const BASE_URL_API = "<?= base_url("api") ?>";
         const USER = <?= json_encode(session()->get("user")) ?>;
     </script>
     <script src="<?= base_url("assets/libs/jquery/jquery.js") ?>"></script>

@@ -74,8 +74,9 @@ CREATE TABLE IF NOT EXISTS category (
 CREATE TABLE IF NOT EXISTS profile (
     user_id INTEGER PRIMARY KEY,
     body TEXT,
-    logo_path VARCHAR(255),
-    cv_path VARCHAR(255),
+    logo_path VARCHAR(255) DEFAULT '',
+    cv_path VARCHAR(255) DEFAULT '',
+    ts_path VARCHAR(255) DEFAULT '',
     status INTEGER DEFAULT 1,
     FOREIGN KEY (user_id) REFERENCES user(id)
 );

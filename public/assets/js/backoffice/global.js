@@ -55,3 +55,44 @@ function toast (container, type, message) {
 function closeToast(toast) {
     $(toast).parent().parent().parent().remove();
 }
+
+function request(base, url, params) {
+    let data;
+    $.ajax({
+        url: base + "/" +  url,
+        type: "POST",
+        data: params,
+        dataType: "json",
+        async: false,
+        success: function (result, status, xhr) {
+            data = {
+                "status": xhr.status,
+                "data": result
+            };
+        },
+        error: function (error) {
+            data = {
+                "status": 500,
+                "data": JSON.stringify(error)
+            };
+            console.log("Error: " + JSON.stringify(error));
+        }
+    });
+    return data;
+}
+
+/**
+ * Read file content to base64
+ * @param file
+ * @returns {Promise<unknown>}
+ */
+function readFileContent(file) {
+    return new Promise((resolve, reject) => {
+        let reader = new FileReader();
+        reader.onload = function(e) {
+            resolve(e.target.result);
+        };
+        reader.onerror = reject;
+        reader.readAsDataURL(file);
+    });
+}
