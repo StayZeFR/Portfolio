@@ -1,8 +1,6 @@
 <?= $this->extend("backoffice/_pattern") ?>
 
 <?= $this->section("assets") ?>
-<link rel="stylesheet" href="<?= base_url("assets/css/backoffice/projects.css") ?>">
-
 <script src="<?= base_url("assets/js/backoffice/projects/global.js") ?>"></script>
 <script src="<?= base_url("assets/js/backoffice/projects/projects.js") ?>"></script>
 <script src="<?= base_url("assets/js/backoffice/projects/categories.js") ?>"></script>

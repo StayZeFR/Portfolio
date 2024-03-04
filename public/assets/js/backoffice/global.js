@@ -56,6 +56,13 @@ function closeToast(toast) {
     $(toast).parent().parent().parent().remove();
 }
 
+/**
+ *
+ * @param base
+ * @param url
+ * @param params
+ * @returns {*}
+ */
 function request(base, url, params) {
     let data;
     $.ajax({

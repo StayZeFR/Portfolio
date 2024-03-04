@@ -54,6 +54,16 @@
                     <span class="slds-truncate" title="Projets">Projets</span>
                 </a>
             </li>
+            <li class="slds-context-bar__item <?= $page == "BACKOFFICE-TECHWATCH" ? "slds-is-active" : "" ?>">
+                <a href="<?= url_to("BACKOFFICE-TECHWATCH") ?>" class="slds-context-bar__label-action" title="Veille technologique">
+                    <span class="slds-icon_container slds-icon-utility-announcement">
+                        <svg class="slds-icon slds-icon-text-default" aria-hidden="true" style="width: 20px; margin-right: 5px;">
+                            <use xlink:href="/assets/resources/icons/utility-sprite/svg/symbols.svg#link"></use>
+                        </svg>
+                    </span>
+                    <span class="slds-truncate" title="Veille technologique">Veille technologique</span>
+                </a>
+            </li>
 
             <li class="slds-context-bar__item">
                 <div class="slds-dropdown-trigger slds-dropdown-trigger_click">

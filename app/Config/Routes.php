@@ -31,6 +31,7 @@ $routes->group("backoffice", ["filter" => "authGuard"], function (RouteCollectio
     $routes->get("", "Backoffice\HomeController::view", ["as" => "BACKOFFICE-HOME"]);
     $routes->get("profile", "Backoffice\ProfileController::view", ["as" => "BACKOFFICE-PROFILE"]);
     $routes->get("projects", "Backoffice\ProjectsController::view", ["as" => "BACKOFFICE-PROJECTS"]);
+    $routes->get("technology-watch", "Backoffice\TechnologyWatchController::view", ["as" => "BACKOFFICE-TECHWATCH"]);
 });
 
 /*

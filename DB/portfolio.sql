@@ -104,6 +104,24 @@ CREATE TABLE IF NOT EXISTS project_file (
     FOREIGN KEY (project_id) REFERENCES project(id)
 );
 
+CREATE TABLE IF NOT EXISTS technology_watch (
+    id INTEGER PRIMARY KEY AUTO_INCREMENT,
+    user_id INTEGER NOT NULL,
+    description VARCHAR(255) DEFAULT '',
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME DEFAULT NULL,
+    FOREIGN KEY (user_id) REFERENCES user(id)
+);
+
+CREATE TABLE IF NOT EXISTS technology_watch_link (
+    id INTEGER PRIMARY KEY AUTO_INCREMENT,
+    technology_watch_id INTEGER NOT NULL,
+    link TEXT NOT NULL,
+    status INTEGER DEFAULT 1,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (technology_watch_id) REFERENCES technology_watch(id)
+);
+
 
 DELIMITER //
 CREATE TRIGGER before_insert_user
