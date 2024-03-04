@@ -9,10 +9,11 @@
     <link rel="stylesheet" href="<?= base_url("assets/css/frontoffice/navigation.css") ?>">
     <script>
         const BASE_URL = "<?= base_url() ?>";
-        const BASE_API_URL = "<?= base_url("api") ?>";
+        const BASE_URL_API = "<?= base_url("api") ?>";
         const USER = <?= json_encode(session("user")) ?>;
     </script>
     <script src="<?= base_url("assets/libs/jquery/jquery.js") ?>"></script>
+    <script src="<?= base_url("assets/js/global.js") ?>"></script>
     <?= $this->renderSection("assets") ?>
 </head>
 <body>

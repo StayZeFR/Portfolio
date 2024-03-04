@@ -52,7 +52,7 @@
                     </div>
                     <div>
                         <button class="slds-button slds-button_icon slds-button_icon-brand"
-                                onclick="getCategoriesList()">
+                                onclick="updateCategoriesList()">
                             <svg class="slds-button__icon" aria-hidden="true">
                                 <use xlink:href="/assets/resources/icons/utility-sprite/svg/symbols.svg#refresh"></use>
                             </svg>

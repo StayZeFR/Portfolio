@@ -35,4 +35,47 @@ class ProjectModel extends Model
     protected $afterFind = [];
     protected $beforeDelete = [];
     protected $afterDelete = [];
+
+    /**
+     * Cette méthode permet de récupérer un projet par son identifiant
+     *
+     * @param int $user Identifiant de l'utilisateur
+     * @param int $category Identifiant de la catégorie
+     * @param int $status Statut du projet
+     * @return array Résultat de la requête
+     */
+    public function getProjects(int $user, int $category, int $status): array
+    {
+        $builder = $this->builder();
+        $builder->select("project.*, category.name AS category_name");
+        $builder->join("category", "category.id = project.category_id");
+
+        if ($user !== 0) {
+            $builder->where("project.user_id", $user);
+            $builder->where("category.user_id", $user);
+        }
+
+        if ($category !== 0) {
+            $builder->where("category_id", $category);
+        }
+        if ($status !== -1) {
+            $builder->where("project.status", $status);
+            $builder->where("category.status", $status);
+        }
+        return $builder->get()->getResultArray();
+    }
+
+    /**
+     * Cette méthode permet de récupérer un projet par son identifiant
+     * @param int $id Identifiant du projet
+     * @return array Résultat de la requête
+     */
+    public function getProject(int $id): array
+    {
+        $builder = $this->builder();
+        $builder->select("project.*, category.name AS category_name");
+        $builder->join("category", "category.id = project.category_id");
+        $builder->where("project.id", $id);
+        return $builder->get()->getRowArray();
+    }
 }

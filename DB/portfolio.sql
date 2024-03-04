@@ -108,7 +108,6 @@ CREATE TABLE IF NOT EXISTS technology_watch (
     id INTEGER PRIMARY KEY AUTO_INCREMENT,
     user_id INTEGER NOT NULL,
     description VARCHAR(255) DEFAULT '',
-    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     updated_at DATETIME DEFAULT NULL,
     FOREIGN KEY (user_id) REFERENCES user(id)
 );
@@ -138,6 +137,7 @@ CREATE TRIGGER after_insert_user
     ON user FOR EACH ROW
 BEGIN
     INSERT INTO profile (user_id, body, logo_path, cv_path) VALUES (NEW.id, '', '', '');
+    INSERT INTO technology_watch (user_id) VALUES (NEW.id);
 END //
 DELIMITER ;
 

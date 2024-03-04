@@ -24,7 +24,8 @@ class ProjectController extends BaseController
     public function getProject(int $id): ResponseInterface
     {
         $manager = new ProjectModel();
-        $project = $manager->find($id);
+        $project = $manager->getProject($id);
+        $this->response->setStatusCode(200);
         return $this->response->setJSON($project);
     }
 
@@ -36,27 +37,12 @@ class ProjectController extends BaseController
     public function getProjects(): ResponseInterface
     {
         $manager = new ProjectModel();
-        $user = $this->request->getGet("user") ?? "";
-        $category = $this->request->getGet("category") ?? "";
-        $status = $this->request->getGet("status") ?? "";
+        $user = empty($this->request->getGet("user")) ? 0 : intval($this->request->getGet("user"));
+        $category = empty($this->request->getGet("category")) ? 0 : intval($this->request->getGet("category"));
+        $status = $this->request->getGet("status") ?? -1;
 
-        $builder = $manager->builder();
-        $builder->select("project.*, category.name AS category_name");
-        $builder->join("category", "category.id = project.category_id");
-
-        if ($user !== "") {
-            $builder->where("project.user_id", $user);
-            $builder->where("category.user_id", $user);
-        }
-
-        if ($category !== "") {
-            $builder->where("category_id", $category);
-        }
-        if ($status !== "") {
-            $builder->where("project.status", $status);
-            $builder->where("category.status", $status);
-        }
-        $projects = $builder->get()->getResultArray();
+        $projects = $manager->getProjects($user, $category, $status);
+        $this->response->setStatusCode(200);
         return $this->response->setJSON($projects);
     }
 
@@ -132,7 +118,7 @@ class ProjectController extends BaseController
             ];
         }
         $manager->insertBatch($data);
-        $this->response->setStatusCode(201);
+        $this->response->setStatusCode(200);
         return $this->response->setJSON(["message" => "Project created successfully."]);
     }
 

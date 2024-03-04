@@ -10,56 +10,48 @@ use ReflectionException;
 class CategoryController extends BaseController
 {
     /**
-     * Get a type project from database and return it as JSON
+     * Cette fonction permet de récupérer une catégorie depuis la base de données et de la retourner en JSON
      *
-     * @param int $id
+     * @param int $id L'id de la catégorie à récupérer
      * @return ResponseInterface
      */
     public function getCategory(int $id): ResponseInterface
     {
         $manager = new CategoryModel();
-        $category = $manager->find($id);
+        $category = $manager->getCategory($id);
         $this->response->setStatusCode(200);
         return $this->response->setJSON($category);
     }
 
     /**
-     * Get all type projects from database and return them as JSON
+     * Cette fonction permet de récupérer toutes les catégories depuis la base de données et de les retourner en JSON
      *
      * @return ResponseInterface
      */
     public function getCategories(): ResponseInterface
     {
         $manager = new CategoryModel();
-        $user = $this->request->getGet("user") ?? "";
-        $status = $this->request->getGet("status") ?? "";
+        $user = $this->request->getGet("user") ?? 0;
+        $status = $this->request->getGet("status") ?? 0;
 
-        $builder = $manager->builder();
-        $builder->select("category.*");
+        $categories = $manager->getCategories($user, $status);
 
-        if ($user !== "") {
-            $builder->where("user_id", $user);
-        }
-
-        if ($status !== "") {
-            $builder->where("status", $status);
-        }
-
-        $categories = $builder->get()->getResultArray();
+        $this->response->setStatusCode(200);
         return $this->response->setJSON($categories);
     }
 
     /**
-     * Add a new type project in database
+     * Cette fonction permet d'ajouter une catégorie dans la base de données
      *
      * @return ResponseInterface
-     * @throws ReflectionException
+     * @throws ReflectionException Si une erreur survient lors de l'ajout de la catégorie
      */
     public function addCategory(): ResponseInterface
     {
-        $name = trim($this->request->getPost("name"));
-        $status = intval(trim($this->request->getPost("status")));
-        $user = intval(trim($this->request->getPost("user")));
+        $params = $this->request->getPost();
+        $name = trim($params["name"]);
+        $status = intval(trim($params["status"]));
+        $user = intval(trim($params["user"]));
 
         $manager = new CategoryModel();
         $data = [
@@ -67,38 +59,46 @@ class CategoryController extends BaseController
             "status" => $status,
             "user_id" => $user
         ];
-        $manager->insert($data);
+        $manager->addCategory($data);
 
-        $this->response->setStatusCode(201);
-        return $this->response->setJSON(["status" => "success", "message" => "Category created successfully"]);
+        $this->response->setStatusCode(200);
+        return $this->response->setJSON(["message" => "Category added successfully"]);
     }
 
     /**
-     * Delete a type project from database
+     * Cette fonction permet de mettre à jour une catégorie dans la base de données
      *
+     * @param int $id L'id de la catégorie à mettre à jour
      * @return ResponseInterface
      */
-    public function deleteCategory(): ResponseInterface
+    public function updateCategory(int $id): ResponseInterface
     {
         $manager = new CategoryModel();
-        $data = $this->request->getPost();
-        $manager->delete($data["id"]);
-        $this->response->setStatusCode(200);
-        return $this->response->setJSON(["status" => "success", "message" => "Category deleted successfully"]);
+        $params = $this->request->getPost();
+
+        $data = [
+            "name" => $params["name"],
+            "status" => $params["status"],
+            "user_id" => $params["user"]
+        ];
+        $result = $manager->updateCategory($id, $data);
+
+        $this->response->setStatusCode($result ? 200 : 500);
+        return $this->response->setJSON(["message" => $result ? "Category updated successfully" : "An error occurred"]);
     }
 
     /**
-     * Update a type project in database
+     * Cette fonction permet de supprimer une catégorie de la base de données
      *
+     * @param int $id L'id de la catégorie à supprimer
      * @return ResponseInterface
-     * @throws ReflectionException
      */
-    public function updateCategory(): ResponseInterface
+    public function deleteCategory(int $id): ResponseInterface
     {
         $manager = new CategoryModel();
-        $data = $this->request->getPost();
-        $manager->update($data["id"], $data);
-        $this->response->setStatusCode(200);
-        return $this->response->setJSON(["status" => "success", "message" => "Category updated successfully"]);
+        $result = $manager->deleteCategory($id);
+        $this->response->setStatusCode($result ? 200 : 500);
+        return $this->response->setJSON(["message" => $result ? "Category deleted successfully" : "An error occurred"]);
     }
+
 }

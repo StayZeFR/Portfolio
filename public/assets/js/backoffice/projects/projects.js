@@ -1,5 +1,5 @@
 /**
- * Open modal for action on project
+ * Cette fonction permet d'afficher le modal pour ajouter ou modifier un projet
  *
  * @param action
  * @param id
@@ -8,7 +8,7 @@ function showModalProject(action, id) {
     $("#modal-project-action_title").html(action === "update" ? "Modifier un projet - ID : " + id : "Ajouter un projet");
     $("#modal-project-action_valid").html(action === "update" ? "Modifier" : "Ajouter").attr("onclick", action === "update" ? "updateProject(" + id + ")" : "addProject()");
 
-    const categories = getCategoriesList();
+    const categories = request(BASE_URL_API, "categories/list")["data"];
 
     if (action === "update") {
 
@@ -29,8 +29,15 @@ function showModalProject(action, id) {
     $("#modal-project-action").show();
 }
 
+/**
+ * Cette fonction permet de générer le code HTML pour un input de document
+ *
+ * @param name : Le nom du document
+ * @param add : Si on doit afficher le bouton d'ajout
+ * @param remove : Si on doit afficher le bouton de suppression
+ * @returns {string} : Le code HTML
+ */
 function getHtmlDocInput(name, add, remove = false) {
-    let id = generateRandomId();
     return "<div class='slds-col' style='margin-bottom: 5px;'>" +
         "<div class='slds-grid slds-gutters'>" +
         "<div class='slds-col'>" +
@@ -58,15 +65,7 @@ function getHtmlDocInput(name, add, remove = false) {
 }
 
 /**
- * Generate random id
- * @returns {string}
- */
-function generateRandomId() {
-    return "id_" + Math.random().toString(36).substr(2, 9) + "_" + Date.now().toString(36);
-}
-
-/**
- * Add document input for project action
+ * Cette fonction permet de ajouter un input de document
  */
 function addDocInput() {
     const docs = $("#modal-project-action_form-docs");
@@ -77,8 +76,9 @@ function addDocInput() {
 }
 
 /**
- * Remove document input for project action
- * @param element
+ * Cette fonction permet de supprimer un input de document
+ *
+ * @param element : L'élément qui a déclenché l'événement
  */
 function removeDocInput(element) {
     $(element).parent().parent().parent().remove();
@@ -89,49 +89,15 @@ function removeDocInput(element) {
 }
 
 /**
- * Close modal for action on project
+ * Cette fonction permet fermer le modal pour ajouter ou modifier un projet
  */
 function closeModalProject() {
     $("#modal-project-action").hide();
     $("#modal-project-action_toast").html("");
 }
 
-function getProject(id) {
-    let result;
-    $.ajax({
-        url: "/api/projects/" + id,
-        type: "POST",
-        dataType: "json",
-        async: false,
-        data: {},
-        success: function (data) {
-            result = data;
-        }
-    });
-    return result;
-}
-
 /**
- * Get projects list from API
- *
- * @returns {*}
- */
-function getProjectsList() {
-    let result;
-    $.ajax({
-        url: "/api/projects/list",
-        type: "POST",
-        dataType: "json",
-        async: false,
-        success: function (data) {
-            result = data;
-        }
-    });
-    return result;
-}
-
-/**
- * Add project to database with API
+ * Cette fonction permet d'ajouter un projet dans la base de données avec l'API
  */
 async function addProject() {
     const title = $("#modal-project-action_form-title").val();
@@ -164,16 +130,7 @@ async function addProject() {
     }
 
     if (title === "" || category === "" || files.length === 0 || error) {
-        Swal.fire({
-            icon: "error",
-            title: "Champs manquants",
-            text: "Veuillez remplir tous les champs.",
-            toast: true,
-            position: "top-end",
-            showConfirmButton: false,
-            timer: 3000,
-            timerProgressBar: true
-        });
+        toast("error", "Champs manquants", "Veuillez remplir tous les champs.");
     } else {
 
         let data = {
@@ -186,60 +143,22 @@ async function addProject() {
             files: files
         };
 
-        $.ajax({
-            url: "/api/projects/add",
-            type: "POST",
-            dataType: "json",
-            async: false,
-            data: JSON.stringify(data),
-            success: function (data, status, xhr) {
-                closeModalProject();
-                updateProjectsList();
-                if (xhr.status === 201) {
-                    Swal.fire({
-                        icon: "success",
-                        title: "Projet ajouté",
-                        text: "Le projet a bien été ajouté.",
-                        toast: true,
-                        position: "top-end",
-                        showConfirmButton: false,
-                        timer: 3000,
-                        timerProgressBar: true
-                    });
-                } else {
-                    Swal.fire({
-                        icon: "error",
-                        title: "Une erreur est survenue",
-                        text: "Une erreur est survenue lors de l'ajout du projet.",
-                        toast: true,
-                        position: "top-end",
-                        showConfirmButton: false,
-                        timer: 3000,
-                        timerProgressBar: true
-                    });
-                }
-            },
-            error: function (e) {
-                console.log(e);
-                Swal.fire({
-                    icon: "error",
-                    title: "Une erreur est survenue",
-                    text: "Une erreur est survenue lors de l'ajout du projet.",
-                    toast: true,
-                    position: "top-end",
-                    showConfirmButton: false,
-                    timer: 3000,
-                    timerProgressBar: true
-                });
-            }
-        });
+        let result = request(BASE_URL_API, "projects/add", JSON.stringify(data));
+
+        if (result["status"] === 200) {
+            closeModalProject();
+            updateProjectsList();
+            toast("success", "Projet ajouté", "Le projet a bien été ajouté.");
+        } else {
+            toast("error", "Une erreur est survenue", "Une erreur est survenue lors de l'ajout du projet.");
+        }
     }
 }
 
 /**
- * Delete project from database with API
+ * Cette fonction permet de supprimer un projet dans la base de données avec l'API
  *
- * @param id
+ * @param id : L'identifiant du projet
  */
 function deleteProject(id) {
     Swal.fire({
@@ -252,40 +171,13 @@ function deleteProject(id) {
         reverseButtons: true
     }).then((result) => {
         if (result.isConfirmed) {
-            $.ajax({
-                url: "/api/projects/delete",
-                type: "POST",
-                dataType: "json",
-                async: false,
-                data: {
-                    id: id
-                },
-                success: function (data) {
-                    updateProjectsList();
-                    Swal.fire({
-                        icon: "success",
-                        title: "Projet supprimé",
-                        text: "Le projet a bien été supprimé.",
-                        toast: true,
-                        position: "top-end",
-                        showConfirmButton: false,
-                        timer: 3000,
-                        timerProgressBar: true
-                    });
-                },
-                error: function (e) {
-                    Swal.fire({
-                        icon: "error",
-                        title: "Une erreur est survenue",
-                        text: "Une erreur est survenue lors de la suppression du projet.",
-                        toast: true,
-                        position: "top-end",
-                        showConfirmButton: false,
-                        timer: 3000,
-                        timerProgressBar: true
-                    });
-                }
-            });
+            let result = request(BASE_URL_API, "projects/delete/" + id);
+            if (result["status"] === 200) {
+                updateProjectsList();
+                toast("success", "Projet supprimé", "Le projet a bien été supprimé.");
+            } else {
+                toast("error", "Une erreur est survenue", "Une erreur est survenue lors de la suppression du projet.");
+            }
         }
     });
 
@@ -296,53 +188,16 @@ function updateProject(id) {
     const status = $("#modal-project-action_form-status").is(":checked") ? 1 : 0;
     const category = $("#modal-project-action_form-category").val();
     const text = tinymce.get("modal-project-action_form-texteditor").getContent();
-    $.ajax({
-        url: "/api/projects/update",
-        type: "POST",
-        dataType: "json",
-        async: false,
-        data: {
-            id: id,
-            title: title,
-            status: status,
-            category: category,
-            text: text
-        },
-        success: function (data) {
-            closeModalProject();
-            updateProjectsList();
-            Swal.fire({
-                icon: "success",
-                title: "Projet modifié",
-                text: "Le projet a bien été modifié.",
-                toast: true,
-                position: "top-end",
-                showConfirmButton: false,
-                timer: 3000,
-                timerProgressBar: true
-            });
-        },
-        error: function (e) {
-            Swal.fire({
-                icon: "error",
-                title: "Une erreur est survenue",
-                text: "Une erreur est survenue lors de la modification du projet.",
-                toast: true,
-                position: "top-end",
-                showConfirmButton: false,
-                timer: 3000,
-                timerProgressBar: true
-            });
-        }
-    });
+
+    // TODO: Update project with API
 
 }
 
 /**
- * Update projects list in datatable
+ * Cette fonction permet de récupérer la liste des projets et de les afficher dans le tableau
  */
 function updateProjectsList() {
-    let projects = getProjectsList();
+    let projects = request(BASE_URL_API, "projects/list")["data"];
     projectsDatatable.clear();
     projectsDatatable.rows.add(projects);
     projectsDatatable.draw();

@@ -19,6 +19,7 @@
     <script src="<?= base_url("assets/libs/jquery/jquery.js") ?>"></script>
     <script src="<?= base_url("assets/libs/datatables/datatables.min.js") ?>"></script>
     <script src="<?= base_url("assets/libs/sweetalert/sweetalert.js") ?>"></script>
+    <script src="<?= base_url("assets/js/global.js") ?>"></script>
     <script src="<?= base_url("assets/js/backoffice/global.js") ?>"></script>
 
     <?= $this->renderSection("assets") ?>

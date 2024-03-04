@@ -45,7 +45,7 @@ $routes->group("api", function (RouteCollection $routes) {
         $routes->post("(:num)", "API\ProjectController::getProject/$1");
         $routes->post("list", "API\ProjectController::getProjects");
         $routes->post("add", "API\ProjectController::addProject");
-        $routes->post("delete", "API\ProjectController::deleteProject");
+        $routes->post("delete/(:num)", "API\ProjectController::deleteProject/$1");
         $routes->post("update", "API\ProjectController::updateProject");
         $routes->post("files/(:num)", "API\ProjectController::getProjectFiles/$1");
     });
@@ -54,13 +54,17 @@ $routes->group("api", function (RouteCollection $routes) {
         $routes->post("(:num)", "API\CategoryController::getCategory/$1");
         $routes->post("list", "API\CategoryController::getCategories");
         $routes->post("add", "API\CategoryController::addCategory");
-        $routes->post("delete", "API\CategoryController::deleteCategory");
-        $routes->post("update", "API\CategoryController::updateCategory");
+        $routes->post("delete/(:num)", "API\CategoryController::deleteCategory/$1");
+        $routes->post("update/(:num)", "API\CategoryController::updateCategory/$1");
     });
 
     $routes->group("profile", function (RouteCollection $routes) {
         $routes->post("(:num)", "API\ProfileController::getProfile/$1");
         $routes->post("update/(:num)", "API\ProfileController::updateProfile/$1");
+    });
+
+    $routes->group("techwatch", function (RouteCollection $routes) {
+        $routes->post("links/(:num)", "API\TechWatchController::getLinks/$1");
     });
 
 });

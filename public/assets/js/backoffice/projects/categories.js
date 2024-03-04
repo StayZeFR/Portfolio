@@ -1,15 +1,15 @@
 /**
- * Open modal for action on category
+ * Cette fonction permet d'afficher le modal de catégorie
  *
- * @param action
- * @param id
+ * @param action : Action à réaliser (update ou add)
+ * @param id : ID de la catégorie
  */
 function showModalCategory(action, id) {
     $("#modal-category-action_title").html(action === "update" ? "Modifier une catégorie - ID : " + id : "Ajouter une catégorie");
     $("#modal-category-action_valid").html(action === "update" ? "Modifier" : "Ajouter").attr("onclick", action === "update" ? "updateCategory(" + id + ")" : "addCategory()");
 
     if (action === "update") {
-        const category = getCategory(id);
+        const category = request(BASE_URL_API, "categories/" + id, {})["data"];
         $("#modal-category-action_name").val(category["name"]);
         $("#modal-category-action_status").prop("checked", category["status"] === "1");
     }
@@ -18,7 +18,7 @@ function showModalCategory(action, id) {
 }
 
 /**
- * Close modal for action on category
+ * Cette fonction permet de fermer la modal de catégorie
  */
 function closeModalCategory() {
     $("#modal-category-action").hide();
@@ -28,96 +28,34 @@ function closeModalCategory() {
 }
 
 /**
- * Get category from API by ID
- * @param id
- * @returns {*}
- */
-function getCategory(id) {
-    let result;
-    $.ajax({
-        url: "/api/categories/" + id,
-        type: "POST",
-        dataType: "json",
-        async: false,
-        data: {},
-        success: function (data) {
-            result = data;
-        }
-    });
-    return result;
-}
-
-/**
- * Get types list from API (categories)
- *
- * @returns {*}
- */
-function getCategoriesList() {
-    let result;
-    $.ajax({
-        url: "/api/categories/list",
-        type: "POST",
-        dataType: "json",
-        async: false,
-        success: function (data) {
-            result = data;
-        }
-    });
-    return result;
-}
-
-/**
- * Add category to database
+ * Cette fonction permet d'ajouter une catégorie
  */
 function addCategory() {
     const name = $("#modal-category-action_name").val();
     const status = $("#modal-category-action_status").prop("checked");
     if (name !== "") {
-        $.ajax({
-            url: "/api/categories/add",
-            type: "POST",
-            dataType: "json",
-            data: {
-                name: name,
-                status: (status ? 1 : 0),
-                user: USER["id"]
-            },
-            success: function (data) {
-                closeModalCategory();
-                updateCategoriesList();
-                Swal.fire({
-                    title: "Catégorie ajoutée",
-                    text: "La catégorie a bien été ajoutée !",
-                    icon: "success",
-                    toast: true,
-                    position: "top-end",
-                    showConfirmButton: false,
-                    timer: 3000,
-                    timerProgressBar: true
-                });
-            },
-            error: function (e) {
-                Swal.fire({
-                    title: "Erreur",
-                    text: "Une erreur est survenue lors de l'ajout de la catégorie !",
-                    icon: "error",
-                    toast: true,
-                    position: "top-end",
-                    showConfirmButton: false,
-                    timer: 3000,
-                    timerProgressBar: true
-                });
-            }
-        });
+        let data = {
+            "name": name,
+            "status": (status ? 1 : 0),
+            "user": USER["id"]
+        };
+        let result = request(BASE_URL_API, "categories/add", data);
+        if (result["status"] === 200) {
+            closeModalCategory();
+            updateCategoriesList();
+            toast("success", "Catégorie ajoutée", "La catégorie a bien été ajoutée !");
+        } else {
+            toast("error", "Erreur", "Une erreur est survenue lors de l'ajout de la catégorie !");
+        }
     } else {
-        toast("modal-category-action_toast", "error", "Veuillez remplir tous les champs !");
+        toast("error", "Veuillez remplir tous les champs !");
     }
 }
 
 /**
- * Delete category from database
+ * Cette fonction permet de supprimer une catégorie
  *
- * @param id
+ * @param id : ID de la catégorie
  */
 function deleteCategory(id) {
     Swal.fire({
@@ -130,84 +68,51 @@ function deleteCategory(id) {
         reverseButtons: true
     }).then((result) => {
         if (result.isConfirmed) {
-            $.ajax({
-                url: "/api/categories/delete",
-                type: "POST",
-                dataType: "json",
-                data: {
-                    id: id
-                },
-                success: function (data) {
-                    updateCategoriesList();
-                    Swal.fire({
-                        title: "Catégorie supprimée",
-                        text: "La catégorie a bien été supprimée !",
-                        icon: "success",
-                        toast: true,
-                        position: "top-end",
-                        showConfirmButton: false,
-                        timer: 3000,
-                        timerProgressBar: true
-                    });
-                }
-            });
+            let result = request(BASE_URL_API, "categories/delete/" + id)
+            if (result["status"] === 200) {
+                updateCategoriesList();
+                toast("success", "Catégorie supprimée", "La catégorie a bien été supprimée !");
+            } else {
+                toast("error", "Erreur", "Une erreur est survenue lors de la suppression de la catégorie !");
+            }
         }
     });
 }
 
 /**
- * Edit project in database
+ * Cette fonction permet de modifier une catégorie
  *
- * @param id
+ * @param id : ID de la catégorie
  */
 function updateCategory(id) {
     const name = $("#modal-category-action_name").val();
     const status = $("#modal-category-action_status").prop("checked");
     if (name !== "") {
-        $.ajax({
-            url: "/api/categories/update",
-            type: "POST",
-            dataType: "json",
-            data: {
-                id: id,
-                name: name,
-                status: (status ? 1 : 0)
-            },
-            success: function (data) {
-                closeModalCategory();
-                updateCategoriesList();
-                Swal.fire({
-                    title: "Catégorie modifiée",
-                    text: "La catégorie a bien été modifiée !",
-                    icon: "success",
-                    toast: true,
-                    position: "top-end",
-                    showConfirmButton: false,
-                    timer: 3000,
-                    timerProgressBar: true
-                });
-            }
-        });
+        let data = {
+            "name": name,
+            "status": (status ? 1 : 0),
+            "user": USER["id"]
+        };
+
+        let result = request(BASE_URL_API, "categories/update/" + id, data);
+        if (result["status"] === 200) {
+            closeModalCategory();
+            updateCategoriesList();
+            toast("success", "Catégorie modifiée", "La catégorie a bien été modifiée !");
+        } else {
+            toast("error", "Erreur", "Une erreur est survenue lors de la modification de la catégorie !");
+        }
     } else {
-        Swal.fire({
-            title: "Erreur",
-            text: "Veuillez remplir tous les champs !",
-            icon: "error",
-            toast: true,
-            position: "top-end",
-            showConfirmButton: false,
-            timer: 3000,
-            timerProgressBar: true
-        });
+        toast("error", "Veuillez remplir tous les champs !");
     }
 }
 
 /**
- * Update types list in datatable
+ * Cette fonction est appelée lors du chargement de la page pour initialiser les éléments
  */
 function updateCategoriesList() {
-    let types = getCategoriesList();
+    let list = request(BASE_URL_API, "categories/list")["data"];
     categoriesDatatable.clear();
-    categoriesDatatable.rows.add(types);
+    categoriesDatatable.rows.add(list);
     categoriesDatatable.draw();
 }
