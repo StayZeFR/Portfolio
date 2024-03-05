@@ -13,7 +13,7 @@ class TechnologyWatchModel extends Model
     protected $returnType = "array";
     protected $useSoftDeletes = false;
     protected $protectFields = true;
-    protected $allowedFields = ["id", "user_id", "description", "updated_by"];
+    protected $allowedFields = ["id", "user_id", "description", "link_status", "updated_by"];
 
     protected $useTimestamps = false;
     protected $dateFormat = "datetime";
@@ -35,6 +35,20 @@ class TechnologyWatchModel extends Model
     protected $afterFind = [];
     protected $beforeDelete = [];
     protected $afterDelete = [];
+
+    /**
+     * Cette fonction retourne les informations de la veille technologique
+     *
+     * @param int $user L'identifiant de l'utilisateur
+     * @return array Les liens de veille technologique
+     */
+    public function getTechnologyWatch(int $user): array
+    {
+        $builder = $this->builder();
+        $builder->select("id, user_id, description, link_status, created_at");
+        $builder->where("user_id", $user);
+        return $builder->get()->getResultArray();
+    }
 
     /**
      * Cette fonction retourne les liens de veille technologique d'un utilisateur
