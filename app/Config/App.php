@@ -6,6 +6,7 @@ use CodeIgniter\Config\BaseConfig;
 
 class App extends BaseConfig
 {
+
     /**
      * --------------------------------------------------------------------------
      * Base Site URL
@@ -16,7 +17,7 @@ class App extends BaseConfig
      *
      *    http://example.com/
      */
-    public string $baseURL = 'http://portfolio.lan/';
+    public string $baseURL;
 
     /**
      * Allowed Hostnames in the Site URL other than the hostname in the baseURL.
@@ -175,4 +176,11 @@ class App extends BaseConfig
      * @see http://www.w3.org/TR/CSP/
      */
     public bool $CSPEnabled = false;
+
+    public function __construct()
+    {
+        helper("host");
+        $host = getHost();
+        $this->baseURL = ($host == "backoffice" ? URL::$baseURL_backoffice : URL::$baseURL_frontoffice);
+    }
 }

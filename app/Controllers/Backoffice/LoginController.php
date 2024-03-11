@@ -17,8 +17,7 @@ class LoginController extends BaseController
     }
 
     /**
-     * Login user to backoffice
-     *
+     * Permet de connecter un utilisateur
      * @return RedirectResponse
      */
     public function login(): RedirectResponse
@@ -34,10 +33,10 @@ class LoginController extends BaseController
             if (password_verify($password, $user["password"])) {
                 session()->set("user", $user);
                 session()->set("isLoggedIn", true);
-                return redirect()->to("/backoffice");
+                return redirect()->to(url_to("BACKOFFICE-HOME"));
             }
         }
         session()->setFlashdata("error", "Nom d'utilisateur ou mot de passe incorrect !");
-        return redirect()->to("/login");
+        return redirect()->to(url_to("BACKOFFICE-LOGIN"));
     }
 }

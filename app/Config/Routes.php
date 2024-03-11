@@ -6,33 +6,36 @@ use CodeIgniter\Router\RouteCollection;
  * @var RouteCollection $routes
  */
 
-/*
- * --------------------------------------------------------------------
- * FRONT OFFICE ROUTES
- * --------------------------------------------------------------------
- */
+helper("host");
+$host = getHost();
+if ($host === "backoffice") {
+    /*
+     * --------------------------------------------------------------------
+     * BACK OFFICE ROUTES
+     * --------------------------------------------------------------------
+     */
+    $routes->get("/login", "Backoffice\LoginController::view", ["as" => "BACKOFFICE-LOGIN"]);
+    $routes->post("/login", "Backoffice\LoginController::login", ["as" => "BACKOFFICE-LOGIN-POST"]);
 
-$routes->group("", ["filter" => "profile"], function (RouteCollection $routes) {
-    $routes->get("/", "Frontoffice\HomeController::view", ["as" => "FRONTOFFICE-HOME"]);
-    $routes->get("/profile", "Frontoffice\ProfileController::view", ["as" => "FRONTOFFICE-PROFILE"]);
-    $routes->get("/projects", "Frontoffice\ProjectsController::view", ["as" => "FRONTOFFICE-PROJECTS"]);
-    $routes->get("/technology-watch", "Frontoffice\TechnologyWatchController::view", ["as" => "FRONTOFFICE-TECHWATCH"]);
-});
-
-/*
- * --------------------------------------------------------------------
- * BACK OFFICE ROUTES
- * --------------------------------------------------------------------
- */
-$routes->get("/login", "Backoffice\LoginController::view", ["as" => "BACKOFFICE-LOGIN"]);
-$routes->post("/login", "Backoffice\LoginController::login", ["as" => "BACKOFFICE-LOGIN-POST"]);
-
-$routes->group("backoffice", ["filter" => "authGuard"], function (RouteCollection $routes) {
-    $routes->get("", "Backoffice\HomeController::view", ["as" => "BACKOFFICE-HOME"]);
-    $routes->get("profile", "Backoffice\ProfileController::view", ["as" => "BACKOFFICE-PROFILE"]);
-    $routes->get("projects", "Backoffice\ProjectsController::view", ["as" => "BACKOFFICE-PROJECTS"]);
-    $routes->get("technology-watch", "Backoffice\TechnologyWatchController::view", ["as" => "BACKOFFICE-TECHWATCH"]);
-});
+    $routes->group("", ["filter" => "authGuard"], function (RouteCollection $routes) {
+        $routes->get("/", "Backoffice\HomeController::view", ["as" => "BACKOFFICE-HOME"]);
+        $routes->get("/profile", "Backoffice\ProfileController::view", ["as" => "BACKOFFICE-PROFILE"]);
+        $routes->get("/projects", "Backoffice\ProjectsController::view", ["as" => "BACKOFFICE-PROJECTS"]);
+        $routes->get("/technology-watch", "Backoffice\TechnologyWatchController::view", ["as" => "BACKOFFICE-TECHWATCH"]);
+    });
+} else {
+    /*
+     * --------------------------------------------------------------------
+     * FRONT OFFICE ROUTES
+     * --------------------------------------------------------------------
+     */
+    $routes->group("", ["filter" => "profile"], function (RouteCollection $routes) {
+        $routes->get("/", "Frontoffice\HomeController::view", ["as" => "FRONTOFFICE-HOME"]);
+        $routes->get("/profile", "Frontoffice\ProfileController::view", ["as" => "FRONTOFFICE-PROFILE"]);
+        $routes->get("/projects", "Frontoffice\ProjectsController::view", ["as" => "FRONTOFFICE-PROJECTS"]);
+        $routes->get("/technology-watch", "Frontoffice\TechnologyWatchController::view", ["as" => "FRONTOFFICE-TECHWATCH"]);
+    });
+}
 
 /*
  * --------------------------------------------------------------------
