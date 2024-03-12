@@ -7,6 +7,7 @@ use CodeIgniter\Router\RouteCollection;
  */
 
 helper("host");
+helper("profile");
 $host = getHost();
 if ($host === "backoffice") {
     /*
@@ -23,18 +24,20 @@ if ($host === "backoffice") {
         $routes->get("/projects", "Backoffice\ProjectsController::view", ["as" => "BACKOFFICE-PROJECTS"]);
         $routes->get("/technology-watch", "Backoffice\TechnologyWatchController::view", ["as" => "BACKOFFICE-TECHWATCH"]);
     });
-} else {
-    /*
-     * --------------------------------------------------------------------
-     * FRONT OFFICE ROUTES
-     * --------------------------------------------------------------------
-     */
-    $routes->group("", ["filter" => "profile"], function (RouteCollection $routes) {
-        $routes->get("/", "Frontoffice\Portfolio\HomeController::view", ["as" => "FRONTOFFICE-HOME"]);
-        $routes->get("/profile", "Frontoffice\Portfolio\ProfileController::view", ["as" => "FRONTOFFICE-PROFILE"]);
-        $routes->get("/projects", "Frontoffice\Portfolio\ProjectsController::view", ["as" => "FRONTOFFICE-PROJECTS"]);
-        $routes->get("/technology-watch", "Frontoffice\Portfolio\TechnologyWatchController::view", ["as" => "FRONTOFFICE-TECHWATCH"]);
-    });
+} else if (!empty($host)) {
+    if (getProfile($host)) {
+        /*
+         * --------------------------------------------------------------------
+         * FRONT OFFICE ROUTES
+         * --------------------------------------------------------------------
+         */
+        $routes->group("", ["filter" => "profile"], function (RouteCollection $routes) {
+            $routes->get("/", "Frontoffice\Portfolio\HomeController::view", ["as" => "FRONTOFFICE-HOME"]);
+            $routes->get("/profile", "Frontoffice\Portfolio\ProfileController::view", ["as" => "FRONTOFFICE-PROFILE"]);
+            $routes->get("/projects", "Frontoffice\Portfolio\ProjectsController::view", ["as" => "FRONTOFFICE-PROJECTS"]);
+            $routes->get("/technology-watch", "Frontoffice\Portfolio\TechnologyWatchController::view", ["as" => "FRONTOFFICE-TECHWATCH"]);
+        });
+    }
 }
 
 /*
