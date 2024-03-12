@@ -30,10 +30,10 @@ if ($host === "backoffice") {
      * --------------------------------------------------------------------
      */
     $routes->group("", ["filter" => "profile"], function (RouteCollection $routes) {
-        $routes->get("/", "Frontoffice\HomeController::view", ["as" => "FRONTOFFICE-HOME"]);
-        $routes->get("/profile", "Frontoffice\ProfileController::view", ["as" => "FRONTOFFICE-PROFILE"]);
-        $routes->get("/projects", "Frontoffice\ProjectsController::view", ["as" => "FRONTOFFICE-PROJECTS"]);
-        $routes->get("/technology-watch", "Frontoffice\TechnologyWatchController::view", ["as" => "FRONTOFFICE-TECHWATCH"]);
+        $routes->get("/", "Frontoffice\Portfolio\HomeController::view", ["as" => "FRONTOFFICE-HOME"]);
+        $routes->get("/profile", "Frontoffice\Portfolio\ProfileController::view", ["as" => "FRONTOFFICE-PROFILE"]);
+        $routes->get("/projects", "Frontoffice\Portfolio\ProjectsController::view", ["as" => "FRONTOFFICE-PROJECTS"]);
+        $routes->get("/technology-watch", "Frontoffice\Portfolio\TechnologyWatchController::view", ["as" => "FRONTOFFICE-TECHWATCH"]);
     });
 }
 
