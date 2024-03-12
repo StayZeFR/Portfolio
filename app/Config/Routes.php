@@ -25,7 +25,7 @@ if ($host === "backoffice") {
         $routes->get("/technology-watch", "Backoffice\TechnologyWatchController::view", ["as" => "BACKOFFICE-TECHWATCH"]);
     });
 } else if (!empty($host)) {
-    if (getProfile($host)) {
+    if (getProfile(str_replace("-", ".", $host))) {
         /*
          * --------------------------------------------------------------------
          * FRONT OFFICE ROUTES
