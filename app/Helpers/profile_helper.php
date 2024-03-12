@@ -3,8 +3,7 @@
 use App\Models\UserModel;
 
 /**
- * Get the profile of a user
- *
+ * Récupère le profil de l'utilisateur grâce à son nom d'utilisateur
  * @param string $username
  * @return bool
  */

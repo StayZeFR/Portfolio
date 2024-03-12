@@ -181,6 +181,6 @@ class App extends BaseConfig
     {
         helper("host");
         $host = getHost();
-        $this->baseURL = ($host == "backoffice" ? URL::$baseURL_backoffice : URL::$baseURL_frontoffice);
+        $this->baseURL = URL::getBaseURL($host);
     }
 }
