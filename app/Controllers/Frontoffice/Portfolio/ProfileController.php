@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controllers\Frontoffice;
+namespace App\Controllers\Frontoffice\Portfolio;
 
 use App\Controllers\BaseController;
 use App\Models\ProfileModel;
@@ -12,7 +12,7 @@ class ProfileController extends BaseController
         $manager = new ProfileModel();
         $profile = $manager->getProfile(session()->get("user")["id"]);
 
-        return view("frontoffice/pages/profile", [
+        return view("frontoffice/portfolio/pages/profile", [
             "page" => "FRONTOFFICE-PROFILE",
             "profile" => $profile
         ]);

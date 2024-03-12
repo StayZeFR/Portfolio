@@ -1,8 +1,8 @@
-<?= $this->extend("frontoffice/_pattern") ?>
+<?= $this->extend("frontoffice/portfolio/_pattern") ?>
 
 <?= $this->section("assets") ?>
-<link rel="stylesheet" href="<?= base_url("assets/css/frontoffice/projects.css") ?>">
-<script src="<?= base_url("assets/js/frontoffice/projects.js") ?>"></script>
+<link rel="stylesheet" href="<?= base_url("assets/css/frontoffice/portfolio/projects.css") ?>">
+<script src="<?= base_url("assets/js/frontoffice/portfolio/projects.js") ?>"></script>
 <?= $this->endSection() ?>
 
 <?= $this->section("main") ?>
