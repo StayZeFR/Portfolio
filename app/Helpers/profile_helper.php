@@ -10,7 +10,7 @@ use App\Models\UserModel;
  */
 function getProfile(string $username): bool
 {
-    $check = session()->get("user")["username"] === $username;
+    $check = !empty(session()->get("user")) && session()->get("user")["username"] === $username;
     if ((empty(session()->get("user")) || session()->get("user")["username"] !== $username)) {
         $manager = new UserModel();
         $builder = $manager->builder();
