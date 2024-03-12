@@ -10,17 +10,17 @@ use App\Models\UserModel;
  */
 function getProfile(string $username): bool
 {
-    if (empty(session()->get("user")) || session()->get("user")["username"] !== $username) {
+    $check = session()->get("user")["username"] === $username;
+    if ((empty(session()->get("user")) || session()->get("user")["username"] !== $username)) {
         $manager = new UserModel();
         $builder = $manager->builder();
         $builder->select("id, username, first_name, last_name, email");
         $builder->where("username", $username);
         $result = $builder->get()->getRowArray();
 
-        if ($result) {
-            session()->set("user", $result);
-            return true;
-        }
+        session()->set("user", $result);
+
+        $check = !empty($result);
     }
-    return false;
+    return $check;
 }
