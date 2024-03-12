@@ -1,7 +1,7 @@
-<?= $this->extend("frontoffice/_pattern") ?>
+<?= $this->extend("frontoffice/portfolio/_pattern") ?>
 
 <?= $this->section("assets") ?>
-<link rel="stylesheet" href="<?= base_url("assets/css/frontoffice/techwatch.css") ?>">
+<link rel="stylesheet" href="<?= base_url("assets/css/frontoffice/portfolio/techwatch.css") ?>">
 <?= $this->endSection() ?>
 
 <?= $this->section("main") ?>

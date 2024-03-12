@@ -1,11 +1,11 @@
 @font-face {
     font-family: neoteric;
-    src: url("../fonts/Neoteric/Neoteric-32A8.ttf");
+    src: url("../../fonts/Neoteric/Neoteric-32A8.ttf");
 }
 
 @font-face {
     font-family: spacemono;
-    src: url("../fonts/SpaceMono/SpaceMono-Regular.ttf");
+    src: url("../../fonts/SpaceMono/SpaceMono-Regular.ttf");
 }
 
 html, body {
@@ -44,7 +44,7 @@ body {
     background-color: #1a1a1a;
     height: 400px;
     width: 100%;
-    background-image: url("../../resources/images/background.jpg");
+    background-image: url("../../../resources/images/background.jpg");
 }
 
 #filter {

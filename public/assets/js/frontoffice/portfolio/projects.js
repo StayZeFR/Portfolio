@@ -93,7 +93,7 @@ function filter() {
             "<div class='project-docs'>";
 
         docs.forEach(function (doc) {
-            html += "<a href='/" + doc["file_path"] + "' target='_blank'>" + doc["name"] + "</a>";
+            html += "<a href='" + doc["file_path"] + "' target='_blank'>" + doc["name"] + "</a>";
         });
 
         html += "</div></div>";

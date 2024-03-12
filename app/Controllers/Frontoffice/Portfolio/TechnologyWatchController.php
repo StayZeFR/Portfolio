@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controllers\Frontoffice;
+namespace App\Controllers\Frontoffice\Portfolio;
 
 use App\Controllers\BaseController;
 use App\Models\FluxRssModel;
@@ -15,7 +15,7 @@ class TechnologyWatchController extends BaseController
             "https://blogs.nvidia.com/feed/"
         ]);
 
-        return view("frontoffice/pages/techwatch", [
+        return view("frontoffice/portfolio/pages/techwatch", [
             "page" => "FRONTOFFICE-TECHWATCH",
             "flux" => $flux
         ]);

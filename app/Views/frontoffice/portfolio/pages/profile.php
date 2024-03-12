@@ -1,7 +1,7 @@
-<?= $this->extend("frontoffice/_pattern") ?>
+<?= $this->extend("frontoffice/portfolio/_pattern") ?>
 
 <?= $this->section("assets") ?>
-<link rel="stylesheet" href="<?= base_url("assets/css/frontoffice/profile.css") ?>">
+<link rel="stylesheet" href="<?= base_url("assets/css/frontoffice/portfolio/profile.css") ?>">
 <?= $this->endSection() ?>
 
 <?= $this->section("main") ?>
