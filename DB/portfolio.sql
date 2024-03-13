@@ -10,7 +10,7 @@ CREATE TABLE IF NOT EXISTS user (
     password TEXT NOT NULL,
     email VARCHAR(100) DEFAULT NULL,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP
-);
+) ENGINE=InnoDB;
 
 CREATE TABLE IF NOT EXISTS permission (
     id INTEGER PRIMARY KEY AUTO_INCREMENT,
@@ -20,7 +20,7 @@ CREATE TABLE IF NOT EXISTS permission (
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     created_by INTEGER DEFAULT NULL,
     FOREIGN KEY (created_by) REFERENCES user(id)
-);
+) ENGINE=InnoDB;
 
 CREATE TABLE IF NOT EXISTS role (
     id INTEGER PRIMARY KEY AUTO_INCREMENT,
@@ -29,7 +29,7 @@ CREATE TABLE IF NOT EXISTS role (
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     created_by INTEGER DEFAULT NULL,
     FOREIGN KEY (created_by) REFERENCES user(id)
-);
+) ENGINE=InnoDB;
 
 CREATE TABLE IF NOT EXISTS user_role (
     user_id INTEGER NOT NULL,
@@ -39,7 +39,7 @@ CREATE TABLE IF NOT EXISTS user_role (
     FOREIGN KEY (user_id) REFERENCES user(id),
     FOREIGN KEY (role_id) REFERENCES role(id),
     FOREIGN KEY (created_by) REFERENCES user(id)
-);
+) ENGINE=InnoDB;
 
 CREATE TABLE IF NOT EXISTS role_permission (
     role_id INTEGER NOT NULL,
@@ -49,7 +49,7 @@ CREATE TABLE IF NOT EXISTS role_permission (
     FOREIGN KEY (role_id) REFERENCES role(id),
     FOREIGN KEY (permission_id) REFERENCES permission(id),
     FOREIGN KEY (created_by) REFERENCES user(id)
-);
+) ENGINE=InnoDB;
 
 CREATE TABLE IF NOT EXISTS user_permission (
     user_id INTEGER NOT NULL,
@@ -59,7 +59,7 @@ CREATE TABLE IF NOT EXISTS user_permission (
     FOREIGN KEY (user_id) REFERENCES user(id),
     FOREIGN KEY (permission_id) REFERENCES permission(id),
     FOREIGN KEY (created_by) REFERENCES user(id)
-);
+) ENGINE=InnoDB;
 
 CREATE TABLE IF NOT EXISTS category (
     id INTEGER PRIMARY KEY AUTO_INCREMENT,
@@ -69,7 +69,7 @@ CREATE TABLE IF NOT EXISTS category (
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     updated_at DATETIME DEFAULT NULL,
     FOREIGN KEY (user_id) REFERENCES user(id)
-);
+) ENGINE=InnoDB;
 
 CREATE TABLE IF NOT EXISTS profile (
     user_id INTEGER PRIMARY KEY,
@@ -79,7 +79,7 @@ CREATE TABLE IF NOT EXISTS profile (
     ts_path VARCHAR(255) DEFAULT '',
     status INTEGER DEFAULT 1,
     FOREIGN KEY (user_id) REFERENCES user(id)
-);
+) ENGINE=InnoDB;
 
 CREATE TABLE IF NOT EXISTS project (
     id INTEGER PRIMARY KEY AUTO_INCREMENT,
@@ -93,7 +93,7 @@ CREATE TABLE IF NOT EXISTS project (
     updated_at DATETIME DEFAULT NULL,
     FOREIGN KEY (user_id) REFERENCES user(id),
     FOREIGN KEY (category_id) REFERENCES category(id)
-);
+) ENGINE=InnoDB;
 
 CREATE TABLE IF NOT EXISTS project_file (
     id INTEGER PRIMARY KEY AUTO_INCREMENT,
@@ -102,7 +102,7 @@ CREATE TABLE IF NOT EXISTS project_file (
     file_path TEXT NOT NULL,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (project_id) REFERENCES project(id)
-);
+) ENGINE=InnoDB;
 
 CREATE TABLE IF NOT EXISTS technology_watch (
     id INTEGER PRIMARY KEY AUTO_INCREMENT,
@@ -111,7 +111,7 @@ CREATE TABLE IF NOT EXISTS technology_watch (
     link_status INTEGER DEFAULT 1,
     updated_at DATETIME DEFAULT NULL,
     FOREIGN KEY (user_id) REFERENCES user(id)
-);
+) ENGINE=InnoDB;
 
 CREATE TABLE IF NOT EXISTS technology_watch_link (
     id INTEGER PRIMARY KEY AUTO_INCREMENT,
@@ -120,7 +120,7 @@ CREATE TABLE IF NOT EXISTS technology_watch_link (
     status INTEGER DEFAULT 1,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (technology_watch_id) REFERENCES technology_watch(id)
-);
+) ENGINE=InnoDB;
 
 DELIMITER //
 CREATE TRIGGER before_insert_user
@@ -138,6 +138,15 @@ CREATE TRIGGER after_insert_user
 BEGIN
     INSERT INTO profile (user_id, body, logo_path, cv_path) VALUES (NEW.id, '', '', '');
     INSERT INTO technology_watch (user_id) VALUES (NEW.id);
+END //
+DELIMITER ;
+
+DELIMITER //
+CREATE TRIGGER before_update_techwatch
+    BEFORE UPDATE
+    ON technology_watch FOR EACH ROW
+BEGIN
+    SET NEW.updated_at = CURRENT_TIMESTAMP;
 END //
 DELIMITER ;
 

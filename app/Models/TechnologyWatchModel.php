@@ -45,9 +45,9 @@ class TechnologyWatchModel extends Model
     public function getTechnologyWatch(int $user): array
     {
         $builder = $this->builder();
-        $builder->select("id, user_id, description, link_status, created_at");
+        $builder->select("id, user_id, description, link_status, updated_at");
         $builder->where("user_id", $user);
-        return $builder->get()->getResultArray();
+        return $builder->get()->getRowArray();
     }
 
     /**

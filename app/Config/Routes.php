@@ -64,6 +64,7 @@ $routes->group("api", function (RouteCollection $routes) {
     });
 
     $routes->group("techwatch", function (RouteCollection $routes) {
+        $routes->post("(:num)", "API\TechWatchController::getTechnologyWatch/$1");
         $routes->post("links/(:num)", "API\TechWatchController::getLinks/$1");
     });
 

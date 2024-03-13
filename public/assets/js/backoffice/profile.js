@@ -1,7 +1,7 @@
 let data= {};
 
 /**
- * Get the profile data and set it on the input
+ * Permet de récupérer les données de l'utilisateur est de les afficher dans les inputs
  */
 function setDataOnInput() {
     data = request(BASE_URL_API, ("profile/" + USER["id"]), {});
@@ -33,7 +33,7 @@ function setDataOnInput() {
 }
 
 /**
- * Delete the logo file
+ * Permet de supprimer le logo
  */
 function deleteLogo() {
     $("#input_logo-content").html("<input type='file' id='input_logo' style='width: 100%;' accept='image/png'>");
@@ -43,7 +43,7 @@ function deleteLogo() {
 }
 
 /**
- * Delete the cv file
+ * Permet de supprimer le cv
  */
 function deleteCv() {
     $("#input_cv-content").html("<input type='file' id='input_cv' style='width: 100%;' accept='application/pdf'>");
@@ -53,7 +53,7 @@ function deleteCv() {
 }
 
 /**
- * Delete the ts file
+ * Permet de supprimer le ts
  */
 function deleteTs() {
     $("#input_ts-content").html("<input type='file' id='input_ts' style='width: 100%;' accept='application/pdf'>");
@@ -63,7 +63,7 @@ function deleteTs() {
 }
 
 /**
- * Check if the input is different from the profile
+ * Permet de vérifier si les inputs ont été modifiés
  */
 function checkInput() {
     const profile = data["data"];
@@ -79,7 +79,8 @@ function checkInput() {
 }
 
 /**
- * Save the new profile
+ * Permet de sauvegarder les modifications
+ *
  * @returns {Promise<void>}
  */
 async function save() {
@@ -115,7 +116,7 @@ async function save() {
 }
 
 /**
- * Cancel the changes
+ * Permet d'annuler les modifications
  */
 function cancel() {
     setDataOnInput();
