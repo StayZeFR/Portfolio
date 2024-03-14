@@ -1,7 +1,5 @@
 $(document).ready(function () {
 
-    $("#name").text(USER["first_name"] + " " + USER["last_name"]);
-
     tsParticles.load("filter", {
         fpsLimit: 60,
         particles: {
