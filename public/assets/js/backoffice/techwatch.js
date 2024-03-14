@@ -1,5 +1,6 @@
 let datatable = null;
 let currentOpenedAction = null;
+let data = null;
 
 function toggleAction(element) {
     if (currentOpenedAction !== null && currentOpenedAction !== element) {
@@ -25,6 +26,17 @@ $(document).on("click", function (e) {
     }
 });
 
+function checkInput() {
+    let check = false;
+    check = check || (tinymce.get("input_description") !== null && tinymce.get("input_description").getContent().trim() !== data["body"]);
+    $("#btn_cancel").attr("disabled", !check);
+    $("#btn_save").attr("disabled", !check);
+}
+
+function cancel() {
+    setDefault();
+}
+
 function updateLinks() {
     const result = request(BASE_URL_API, "techwatch/links/" + USER["id"]);
     if (result.status === 200) {
@@ -33,7 +45,23 @@ function updateLinks() {
     }
 }
 
+function setDefault() {
+    data = request(BASE_URL_API, "techwatch/" + USER["id"]);
+    if (data["status"] === 200) {
+        data = data["data"];
+        if (tinymce.get("input_description") !== null) {
+            tinymce.get("input_description").remove()
+        }
+        $("#input_description").text(data["description"]);
+        $("#btn_cancel").attr("disabled", true);
+        $("#btn_save").attr("disabled", true);
+    }
+}
+
 $(document).ready(function() {
+
+    setDefault();
+
     datatable = $("#table_links").DataTable({
         responsive: true,
         language: {
@@ -73,6 +101,19 @@ $(document).ready(function() {
             }
 
         ]
+    });
+
+    $("#input_description").on("click", function() {
+        if ($("#input_description").attr("data-mce-type") === undefined) {
+            tinymce.init({
+                selector: "#input_description",
+                plugins: "advlist autolink lists link charmap preview anchor",
+                toolbar: "undo redo | h1 h2 h3 h4 h5 h6 | fontsize | code | bold italic underline | alignleft aligncenter alignright alignjustify | bullist numlist | link image",
+                font_size_input_default_unit: "pt",
+                content_style: "body { font-family:Helvetica,Arial,sans-serif; font-size:16px }"
+            });
+            tinymce.get("input_description").on("input", checkInput);
+        }
     });
     updateLinks();
 });

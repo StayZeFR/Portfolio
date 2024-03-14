@@ -3,6 +3,7 @@
 <?= $this->section("assets") ?>
 <link rel="stylesheet" href="<?= base_url("assets/css/backoffice/techwatch.css") ?>">
 <script src="<?= base_url("assets/js/backoffice/techwatch.js") ?>"></script>
+<script src="<?= base_url("assets/libs/tinymce/tinymce.min.js") ?>" referrerpolicy="origin"></script>
 <?= $this->endSection() ?>
 
 <?= $this->section("main") ?>

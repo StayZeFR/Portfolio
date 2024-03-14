@@ -8,6 +8,22 @@ use CodeIgniter\HTTP\ResponseInterface;
 
 class TechWatchController extends BaseController
 {
+
+    /**
+     * Cette fonction retourne les informations de la veille technologique
+     *
+     * @param int $user
+     * @return ResponseInterface
+     */
+    public function getTechnologyWatch(int $user): ResponseInterface
+    {
+        $manager = new TechnologyWatchModel();
+        $technologyWatch = $manager->getTechnologyWatch($user);
+
+        $this->response->setStatusCode(200);
+        return $this->response->setJSON($technologyWatch);
+    }
+
     /**
      * Cette fonction retourne les liens de veille technologique d'un utilisateur
      *
