@@ -8,6 +8,11 @@
     src: url("../../fonts/SpaceMono/SpaceMono-Regular.ttf");
 }
 
+@font-face {
+    font-family: poppins;
+    src: url("../../fonts/Poppins/Poppins-Light.ttf");
+}
+
 html, body {
     height: 100%;
     width: 100%;
@@ -16,7 +21,7 @@ html, body {
 body {
     margin: 0;
     padding: 0;
-    font-family: "neoteric", sans-serif;
+    font-family: "poppins", sans-serif;
     display: grid;
     grid-template-rows: 85px calc(100% - 85px);
     grid-template-columns: auto;

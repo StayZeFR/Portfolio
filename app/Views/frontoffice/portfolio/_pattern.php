@@ -14,6 +14,7 @@
     </script>
     <script src="<?= base_url("assets/libs/jquery/jquery.js") ?>"></script>
     <script src="<?= base_url("assets/js/global.js") ?>"></script>
+    <script src="<?= base_url("assets/js/frontoffice/portfolio/navigation.js") ?>"></script>
     <?= $this->renderSection("assets") ?>
 </head>
 <body>

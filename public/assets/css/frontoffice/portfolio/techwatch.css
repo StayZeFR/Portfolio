@@ -9,8 +9,10 @@
 .article-items {
     border-bottom: 1px solid #1a1a1a;
     padding: 30px;
+    font-family: poppins, sans-serif;
 }
 
 .article-items-content {
     padding: 0 50px;
+    font-family: poppins, sans-serif;
 }
