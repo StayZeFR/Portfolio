@@ -37,19 +37,40 @@
                     <button class="slds-button slds-button_brand" id="btn_save" disabled onclick="save()">Sauvegarder</button>
                 </div>
                 <hr>
-                <div class="slds-col" style="margin-bottom: 20px; display: flex; flex-direction: row; justify-content: right;">
-                    <button class="slds-button slds-button_icon slds-button_icon-brand" onclick="updateLinks()">
-                        <svg class="slds-button__icon" aria-hidden="true">
-                            <use xlink:href="/assets/resources/icons/utility-sprite/svg/symbols.svg#refresh"></use>
-                        </svg>
-                        <span class="slds-assistive-text">Actualiser</span>
-                    </button>
-                    <button class="slds-button slds-button_icon slds-button_icon-brand"
-                            onclick="showModalLink('add')">
-                        <svg class="slds-button__icon" aria-hidden="true">
-                            <use xlink:href="/assets/resources/icons/utility-sprite/svg/symbols.svg#add"></use>
-                        </svg>
-                    </button>
+                <div class="slds-col" style="margin-bottom: 20px; display: flex; flex-direction: row; justify-content: space-between;">
+                    <div>
+                        <h3 class="slds-text-heading_medium">Flux RSS</h3>
+                    </div>
+                    <div class="slds-grid slds-gutters">
+                        <div class="slds-col">
+                            <div class="slds-form-element">
+                                <label class="slds-checkbox_toggle slds-grid">
+                                    <input type="checkbox" checked>
+                                    <span id="input_status" class="slds-checkbox_faux_container">
+                                        <span class="slds-checkbox_faux"></span>
+                                        <span class="slds-checkbox_on">Activer</span>
+                                        <span class="slds-checkbox_off">Desactiver</span>
+                                    </span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="slds-col">
+                            <button class="slds-button slds-button_icon slds-button_icon-brand" onclick="updateLinks()">
+                                <svg class="slds-button__icon" aria-hidden="true">
+                                    <use xlink:href="/assets/resources/icons/utility-sprite/svg/symbols.svg#refresh"></use>
+                                </svg>
+                                <span class="slds-assistive-text">Actualiser</span>
+                            </button>
+                        </div>
+                        <div class="slds-col">
+                            <button class="slds-button slds-button_icon slds-button_icon-brand"
+                                    onclick="showModalLink('add')">
+                                <svg class="slds-button__icon" aria-hidden="true">
+                                    <use xlink:href="/assets/resources/icons/utility-sprite/svg/symbols.svg#add"></use>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
                 </div>
                 <div class="slds-col">
                     <table id="table_links"></table>
