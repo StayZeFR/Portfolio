@@ -55,6 +55,7 @@ function setDefault() {
         $("#input_description").text(data["description"]);
         $("#btn_cancel").attr("disabled", true);
         $("#btn_save").attr("disabled", true);
+        $("#input_status").attr("checked", data["link_status"] === "1");
     }
 }
 
@@ -115,6 +116,14 @@ $(document).ready(function() {
             tinymce.get("input_description").on("input", checkInput);
         }
     });
+
+    $("#input_status").on("change", function () {
+        let status = $(this).is(":checked") ? 1 : 0;
+        console.log("STATUS -> " + status + " | ROUTE -> " + "techwatch/status/" + USER["id"], {status});
+        const result = request(BASE_URL_API, "techwatch/status/" + USER["id"] + "?status=" + status);
+        console.log(JSON.stringify(result));
+    });
+
     updateLinks();
 });
 

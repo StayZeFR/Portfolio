@@ -45,8 +45,8 @@
                         <div class="slds-col">
                             <div class="slds-form-element">
                                 <label class="slds-checkbox_toggle slds-grid">
-                                    <input type="checkbox" checked>
-                                    <span id="input_status" class="slds-checkbox_faux_container">
+                                    <input id="input_status" type="checkbox" checked>
+                                    <span class="slds-checkbox_faux_container">
                                         <span class="slds-checkbox_faux"></span>
                                         <span class="slds-checkbox_on">Activer</span>
                                         <span class="slds-checkbox_off">Desactiver</span>

@@ -64,4 +64,19 @@ class TechnologyWatchModel extends Model
         $builder->where("user_id", $user);
         return $builder->get()->getResultArray();
     }
+
+    /**
+     * Cette fonction permet de changer l'état des flux RSS (activé ou désactiver)
+     *
+     * @param int $user
+     * @param int $status
+     * @return void
+     */
+    public function setStatusRssFeed(int $user, int $status): void
+    {
+        $builder = $this->builder();
+        $builder->set("link_status", $status);
+        $builder->where("user_id", $user);
+        $builder->update();
+    }
 }

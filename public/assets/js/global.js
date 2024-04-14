@@ -1,5 +1,6 @@
 /**
- * Request the given URL with the given parameters and return the result as a JSON object with the status code
+ * Permet d'executer une méthode ajax en POST
+ *
  * @param base
  * @param url
  * @param params
